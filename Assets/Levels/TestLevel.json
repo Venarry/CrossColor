@@ -1,0 +1,34 @@
+{
+  "rows": [
+    [
+      {
+        "count": 2,
+        "color": "Blue"
+      }
+    ],
+    [
+      {
+        "count": 2,
+        "color": "Red"
+      }
+    ]
+  ],
+  "columns": [
+    [
+      {
+        "count": 1,
+        "color": "Blue"
+      },
+      {
+        "count": 1,
+        "color": "Red"
+      }
+    ],
+    [
+      {
+        "count": 2,
+        "color": "Blue"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "rows": [
+    {
+      "data": [
+        {
+          "count": 2,
+          "color": "Red"
+        },
+        {
+          "count": 1,
+          "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Red"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 4,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 4,
+          "color": "Blue"
+        }
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Red"
+        },
+        {
+          "count": 2,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Red"
+        },
+        {
+          "count": 2,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 3,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Red"
+        },
+        {
+          "count": 2,
+          "color": "Blue"
+        }
+      ]
+    }
+  ]
+}

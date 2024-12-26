@@ -1,0 +1,96 @@
+{
+  "rows": [
+    {
+      "data": [
+        { "count": 1, "color": "Red" },
+        { "count": 1, "color": "Green" },
+        { "count": 1, "color": "Blue" },
+        { "count": 1, "color": "Yellow" },
+        { "count": 1, "color": "Pink" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Black" },
+        { "count": 1, "color": "White" },
+        { "count": 1, "color": "Gray" },
+        { "count": 1, "color": "Orange" },
+        { "count": 1, "color": "Purple" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Red" },
+        { "count": 1, "color": "Blue" },
+        { "count": 1, "color": "Green" },
+        { "count": 1, "color": "Yellow" },
+        { "count": 1, "color": "Pink" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Purple" },
+        { "count": 1, "color": "Black" },
+        { "count": 1, "color": "White" },
+        { "count": 1, "color": "Gray" },
+        { "count": 1, "color": "Orange" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Green" },
+        { "count": 1, "color": "Blue" },
+        { "count": 1, "color": "Red" },
+        { "count": 1, "color": "Yellow" },
+        { "count": 1, "color": "Pink" }
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "data": [
+        { "count": 1, "color": "Red" },
+        { "count": 1, "color": "Green" },
+        { "count": 1, "color": "Blue" },
+        { "count": 1, "color": "Yellow" },
+        { "count": 1, "color": "Pink" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Black" },
+        { "count": 1, "color": "White" },
+        { "count": 1, "color": "Gray" },
+        { "count": 1, "color": "Orange" },
+        { "count": 1, "color": "Purple" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Red" },
+        { "count": 1, "color": "Blue" },
+        { "count": 1, "color": "Green" },
+        { "count": 1, "color": "Yellow" },
+        { "count": 1, "color": "Pink" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Purple" },
+        { "count": 1, "color": "Black" },
+        { "count": 1, "color": "White" },
+        { "count": 1, "color": "Gray" },
+        { "count": 1, "color": "Orange" }
+      ]
+    },
+    {
+      "data": [
+        { "count": 1, "color": "Green" },
+        { "count": 1, "color": "Blue" },
+        { "count": 1, "color": "Red" },
+        { "count": 1, "color": "Yellow" },
+        { "count": 1, "color": "Pink" }
+      ]
+    }
+  ]
+}
