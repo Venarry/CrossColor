@@ -18,9 +18,15 @@ public class LevelCellsSpawner : MonoBehaviour
     [SerializeField] private Transform _columnsDataParent;
 
     private readonly List<NonogramCell> _spawnedCells = new();
+    private ColorsDataSource _colorsDataSource;
 
     public event Action<NonogramCell[]> Spawned;
     public event Action<string[]> ColorsChanged;
+
+    public void Init(ColorsDataSource colorsDataSource)
+    {
+        _colorsDataSource = colorsDataSource;
+    }
 
     public void SpawnLevel(int[,] levelData, LevelColorsSO levelColors)
     {
@@ -156,7 +162,7 @@ public class LevelCellsSpawner : MonoBehaviour
         for (int i = 0; i < levelData.rows.Count; i++)
         {
             LineData rowData = Instantiate(_rowDataPrefab, _rowsDataParent);
-            rowData.Init(levelData.rows[i].data.Select(c => c.count).ToArray());
+            rowData.Init(levelData.rows[i].data, _colorsDataSource);
 
             rowData.GetComponent<RectTransform>().sizeDelta = cellsSize;
         }
@@ -164,7 +170,7 @@ public class LevelCellsSpawner : MonoBehaviour
         for (int i = 0; i < columnCount; i++)
         {
             LineData rowData = Instantiate(_columnDataPrefab, _columnsDataParent);
-            rowData.Init(levelData.columns[i].data.Select(c => c.count).ToArray());
+            rowData.Init(levelData.columns[i].data, _colorsDataSource); //levelData.columns[i].data.Select(c => c.count).ToArray()
 
             rowData.GetComponent<RectTransform>().sizeDelta = cellsSize;
         }

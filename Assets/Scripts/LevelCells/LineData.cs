@@ -1,17 +1,17 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LineData : MonoBehaviour
 {
     [SerializeField] private Transform _numbersParent;
-    [SerializeField] private TMP_Text _textPrefab;
+    [SerializeField] private LineDataText _lineDataTextPrefab;
 
-    public void Init(int[] values)
+    public void Init(List<CellData> cellsData, ColorsDataSource colorsDataSource) //int[] values
     {
-        foreach (int value in values)
+        foreach (CellData value in cellsData)
         {
-            TMP_Text text = Instantiate(_textPrefab, _numbersParent);
-            text.text = value.ToString();
+            LineDataText text = Instantiate(_lineDataTextPrefab, _numbersParent);
+            text.Init(value.count.ToString(), colorsDataSource.Get(value.color));
         }
     }
 }

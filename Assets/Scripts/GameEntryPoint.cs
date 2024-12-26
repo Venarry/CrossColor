@@ -14,7 +14,7 @@ public class GameEntryPoint : MonoBehaviour
         ColorsDataSource colorsDataSource = new();
         LevelData level = await streaminAssetsReader.ReadAsync<LevelData>("level1.json");
 
-        Debug.Log(JsonUtility.ToJson(level));
+        _levelCellsSpawner.Init(colorsDataSource);
 
         int[][,] levels = _levelsDataSource.Levels;
         LevelColorsSO levelColors = _levelsDataSource.LevelColors[0];
