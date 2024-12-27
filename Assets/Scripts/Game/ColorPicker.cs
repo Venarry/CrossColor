@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ColorPicker : MonoBehaviour
@@ -8,6 +9,7 @@ public class ColorPicker : MonoBehaviour
     [SerializeField] private ColorPickerButton _colorPickerCrossToolButtonPrefab;
     [SerializeField] private Transform _toolsParent;
 
+    private List<ColorPickerButton> _spawnedButtons = new();
     private LevelCellsSpawner _levelCellsSpawner;
     private ColorsDataSource _colorsDataSource;
 
@@ -41,22 +43,42 @@ public class ColorPicker : MonoBehaviour
 
     public void GenerateColorButtons(string[] colorsKeys)
     {
+        ClearButtons();
+
         int startButtonIndex = 0;
 
         //SpawnButton(Color.white, _colorPickerCrossToolButtonPrefab, startButtonIndex);
 
         for (int i = 0; i < colorsKeys.Length; i++)
         {
-            SpawnButton(_colorsDataSource.Get(colorsKeys[i]), _colorPickerButtonPrefab, colorsKeys[i]);
+            ColorPickerButton button = SpawnButton(_colorsDataSource.Get(colorsKeys[i]), _colorPickerButtonPrefab, colorsKeys[i]);
+            _spawnedButtons.Add(button);
         }
 
         SetColor(colorsKeys[startButtonIndex]);
     }
 
-    private void SpawnButton(Color color, ColorPickerButton prefab, string key)
+    private ColorPickerButton SpawnButton(Color color, ColorPickerButton prefab, string key)
     {
         ColorPickerButton button = Instantiate(prefab, _toolsParent);
         button.Init(this);
         button.SetColor(color, key);
+
+        return button;
+    }
+
+    private void ClearButtons()
+    {
+        if(_spawnedButtons.Count == 0)
+        {
+            return;
+        }
+
+        foreach (ColorPickerButton button in _spawnedButtons)
+        {
+            Destroy(button.gameObject);
+        }
+
+        _spawnedButtons.Clear();
     }
 }
