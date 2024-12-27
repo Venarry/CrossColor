@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 [Serializable]
-public class LevelData
+public class LevelLoadData
 {
     public List<Line> rows;
     public List<Line> columns;

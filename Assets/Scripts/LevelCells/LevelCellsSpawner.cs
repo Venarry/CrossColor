@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class LevelCellsSpawner : MonoBehaviour
 {
@@ -23,13 +24,15 @@ public class LevelCellsSpawner : MonoBehaviour
     private RectTransform _gridRectTransform;
     private RectTransform _rowParentRectTransform;
     private RectTransform _columnParentRectTransform;
-    private LevelData[] _levels;
+    private LevelLoadData[] _levelsLoadData;
+    private LevelData[] _levelsData;
     private int _activeLevelIndex = 0;
 
     public event Action<NonogramCell[]> Spawned;
     public event Action<string[]> ColorsChanged;
+    public event Action<LevelData> LevelChanged;
 
-    public void Init(ColorsDataSource colorsDataSource, LevelData[] levels)
+    public void Init(ColorsDataSource colorsDataSource, LevelLoadData[] levelsLoadData, LevelData[] levelsData)
     {
         _colorsDataSource = colorsDataSource;
 
@@ -38,108 +41,18 @@ public class LevelCellsSpawner : MonoBehaviour
         _columnParentRectTransform = _columnsDataParent.GetComponent<RectTransform>();
 
         _activeLevelIndex = 0;
-        _levels = levels;
+        _levelsLoadData = levelsLoadData;
+        _levelsData = levelsData;
     }
-
-    /*public void SpawnLevel(int[,] levelData, LevelColorsSO levelColors)
-    {
-        LevelGrid levelGrid = new();
-        levelGrid.Generate(levelData.Length, levelData.GetLength(0), CellsSpace - CellsOutline);
-
-        for (int i = 0; i < levelData.GetLength(1); i++)
-        {
-            for (int j = 0; j < levelData.GetLength(0); j++)
-            {
-                NonogramCell cell = Instantiate(_nonogramCellPrefab, _gridParent);
-
-                int winColorIndex = levelData[i, j];
-
-                //cell.SetWinCondition(winColorIndex);
-
-                Vector2 position = levelGrid.GetPosition(i, j);
-                cell.transform.localPosition = position;
-
-                _spawnedCells.Add(cell);
-            }
-        }
-
-        //Spawned?.Invoke(_spawnedCells.ToArray());
-    }*/
 
     public async Task SpawnLevel()
     {
-        /*LevelGrid levelGrid = new();
-        int elementCount = 0;
-        int sideSize = 1;
-
-        for (int i = 0; i < levelData.rows.Count; i++)
+        if(_activeLevelIndex >= _levelsLoadData.Length)
         {
-            for (int j = 0; j < levelData.rows[i].data.Count; j++)
-            {
-                elementCount += levelData.rows[i].data[j].count;
-            }
-
-            elementCount += sideSize;
+            return;
         }
 
-        int columnCount = 0;
-
-        for (int j = 0; j < levelData.rows[0].data.Count; j++)
-        {
-            columnCount += levelData.rows[0].data[j].count;
-        }
-
-        int firstRowElementsCount = columnCount + sideSize;
-
-        levelGrid.Generate(elementCount + firstRowElementsCount, columnCount + sideSize, CellsSpace - CellsOutline);
-
-        List<string> colorsStack = new();
-
-        for (int i = 0; i < levelData.rows.Count; i++)
-        {
-            int xPositionIndex = 0;
-
-            for (int j = 0; j < levelData.rows[i].data.Count; j++)
-            {
-                for (int k = 0; k < levelData.rows[i].data[j].count; k++)
-                {
-                    string colorKey = levelData.rows[i].data[j].color;
-                    Vector2 position = levelGrid.GetPosition(i + sideSize, xPositionIndex + sideSize);
-                    xPositionIndex++;
-
-                    NonogramCell cell = Instantiate(_nonogramCellPrefab, _gridParent);
-                    cell.SetWinCondition(colorKey);
-
-                    cell.transform.localPosition = position;
-                    _spawnedCells.Add(cell);
-
-                    if (colorsStack.Contains(colorKey) == false)
-                    {
-                        colorsStack.Add(colorKey);
-                    }
-                }
-            }
-        }
-
-        
-        for (int i = 0; i < levelData.rows.Count; i++)
-        {
-            LineData rowData = Instantiate(_rowDataPrefab, _gridParent);
-            rowData.Init(levelData.rows[i].data.Select(c => c.count).ToArray());
-
-            rowData.transform.localPosition = levelGrid.GetPosition(i + 1, 0);
-        }
-
-        for (int i = 0; i < columnCount; i++)
-        {
-            LineData rowData = Instantiate(_rowDataPrefab, _gridParent);
-            //rowData.Init(levelData.rows[i].data.Select(c => c.count).ToArray());
-
-            rowData.transform.localPosition = levelGrid.GetPosition(0, i + 1);
-        }*/
-
-        LevelData levelData = _levels[_activeLevelIndex];
-        _activeLevelIndex++;
+        LevelLoadData levelData = _levelsLoadData[_activeLevelIndex];
 
         int columnCount = 0;
 
@@ -210,6 +123,9 @@ public class LevelCellsSpawner : MonoBehaviour
 
         Spawned?.Invoke(_spawnedCells.ToArray());
         ColorsChanged?.Invoke(colorsStack.ToArray());
+        LevelChanged?.Invoke(_levelsData[_activeLevelIndex]);
+
+        _activeLevelIndex++;
     }
 
     public Vector2 GetGridSize() =>

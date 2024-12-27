@@ -24,13 +24,14 @@ public class GameEntryPoint : MonoBehaviour
     {
         _streaminAssetsReader = new();
         ColorsDataSource colorsDataSource = new();
-        LevelData[] levels = await LoadLevels();
         CoroutineProvider coroutineProvider = new GameObject("CoroputineProvider").AddComponent<CoroutineProvider>();
 
         int health = 3;
         HealthModel healthModel = new(health);
 
-        _levelCellsSpawner.Init(colorsDataSource, levels);
+        LevelData[] levelsData = _levelsDataSource.Levels;
+        LevelLoadData[] levelsLoadData = await LoadLevels();
+        _levelCellsSpawner.Init(colorsDataSource, levelsLoadData, levelsData);
 
         _winHandler.Enable();
 
@@ -54,14 +55,14 @@ public class GameEntryPoint : MonoBehaviour
         _deathHandler.Disable();
     }
 
-    private async Task<LevelData[]> LoadLevels()
+    private async Task<LevelLoadData[]> LoadLevels()
     {
         string[] levelNames = _levelsDataSource.LevelsName;
-        List<LevelData> levels = new();
+        List<LevelLoadData> levels = new();
 
         foreach (string levelName in levelNames)
         {
-            LevelData level = await _streaminAssetsReader.ReadAsync<LevelData>(levelName + PathJsonEnding);
+            LevelLoadData level = await _streaminAssetsReader.ReadAsync<LevelLoadData>(levelName + PathJsonEnding);
             levels.Add(level);
         }
 

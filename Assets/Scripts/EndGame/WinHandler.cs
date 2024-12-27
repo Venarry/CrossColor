@@ -8,7 +8,7 @@ public class WinHandler : MonoBehaviour
     [SerializeField] private Image _winPanel;
     [SerializeField] private GameObject _labelsParent;
     [SerializeField] private Image _finalImage;
-    [SerializeField] private RawImage _videoClip;
+    [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private LevelCellsSpawner _levelCellsSpawner;
 
     private readonly float _finalImageFadeDuration = 2f;
@@ -20,25 +20,28 @@ public class WinHandler : MonoBehaviour
 
     public void Enable()
     {
-        _levelCellsSpawner.Spawned += OnLevelSpawn;
+        _levelCellsSpawner.LevelChanged += OnLevelSpawn;
     }
 
     public void Disable()
     {
-        _levelCellsSpawner.Spawned -= OnLevelSpawn;
+        _levelCellsSpawner.LevelChanged -= OnLevelSpawn;
     }
 
-    private void OnLevelSpawn(NonogramCell[] cells)
+    private void OnLevelSpawn(LevelData levelData)
     {
         _finalImage.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
-        _videoClip.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
+        _videoPlayer.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
+
+        _finalImage.sprite = levelData.Sprite;
+        _videoPlayer.clip = levelData.VideoClip;
     }
 
     public async void Activate()
     {
         _winPanel.gameObject.SetActive(true);
         _finalImage.gameObject.SetActive(true);
-        _videoClip.gameObject.SetActive(false);
+        _videoPlayer.gameObject.SetActive(false);
 
         Color winPanelColor = _winPanel.color;
         winPanelColor.a = 0;
@@ -59,7 +62,7 @@ public class WinHandler : MonoBehaviour
         winPanelColor.a = 1;
         _winPanel.color = winPanelColor;
 
-        _videoClip.gameObject.SetActive(true);
+        _videoPlayer.gameObject.SetActive(true);
         _labelsParent.SetActive(true);
     }
 }
