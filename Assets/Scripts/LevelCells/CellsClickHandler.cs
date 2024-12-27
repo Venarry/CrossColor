@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 public class CellsClickHandler
 {
@@ -21,6 +22,8 @@ public class CellsClickHandler
         _winHandler = winHandler;
     }
 
+    public event Action<NonogramCell> Clicked;
+
     public void Enable()
     {
         _levelCellsSpawner.Spawned += OnCellsSpawn;
@@ -31,7 +34,7 @@ public class CellsClickHandler
         _levelCellsSpawner.Spawned -= OnCellsSpawn;
     }
 
-    private void OnCellsSpawn(NonogramCell[] cells)
+    private void OnCellsSpawn(NonogramCell[] cells, int rows, int columns)
     {
         _activeCells = new NonogramCell[cells.Length];
 
@@ -59,6 +62,8 @@ public class CellsClickHandler
             cell.EnableWrongColor();
             _healthModel.TakeDamage();
         }
+
+        //Clicked
     }
 
     private void TryWinGame()

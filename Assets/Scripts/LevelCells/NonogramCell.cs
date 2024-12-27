@@ -17,6 +17,14 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
     public Color CellColor => _image.color;
     public string WinColorKey { get; private set; }
     public bool IsActivated { get; private set; } = false;
+    public int RowIndex { get; private set; }
+    public int ColumnIndex { get; private set; }
+
+    public void SetIndex(int i, int j)
+    {
+        RowIndex = i;
+        ColumnIndex = j;
+    }
 
     public void SetWinCondition(string colorKey)
     {

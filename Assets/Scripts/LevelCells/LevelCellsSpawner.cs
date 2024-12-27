@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +27,8 @@ public class LevelCellsSpawner : MonoBehaviour
     private LevelData[] _levelsData;
     private int _activeLevelIndex = 0;
 
-    public event Action<NonogramCell[]> Spawned;
+    public event Action<NonogramCell[], int, int> Spawned;
+    public event Action<LineData[], LineData[]> SideDataSet;
     public event Action<string[]> ColorsChanged;
     public event Action<LevelData, Vector3> LevelChanged;
 
@@ -77,6 +79,8 @@ public class LevelCellsSpawner : MonoBehaviour
 
         for (int i = 0; i < levelData.rows.Count; i++)
         {
+            int columnIndex = 0;
+
             for (int j = 0; j < levelData.rows[i].data.Count; j++)
             {
                 for (int k = 0; k < levelData.rows[i].data[j].count; k++)
@@ -84,7 +88,9 @@ public class LevelCellsSpawner : MonoBehaviour
                     string colorKey = levelData.rows[i].data[j].color;
 
                     NonogramCell cell = Instantiate(_nonogramCellPrefab, _gridLayout.transform);
+                    cell.SetIndex(i, columnIndex);
                     cell.SetWinCondition(colorKey);
+                    columnIndex++;
 
                     _spawnedCells.Add(cell);
 
@@ -136,11 +142,6 @@ public class LevelCellsSpawner : MonoBehaviour
         UpdateHorizontalLayoutSize(_columnParentRectTransform, _columnParentRectTransform.GetComponent<HorizontalLayoutGroup>());
         UpdateVerticalLayoutSize(_rowParentRectTransform, _rowParentRectTransform.GetComponent<VerticalLayoutGroup>());
 
-        /*while (_gridRectTransform.sizeDelta.x == 0)
-        {
-            await Task.Yield();
-        }*/
-
         float sizeDivider = 2;
         float xOffset = _rowParentRectTransform.sizeDelta.x / 2;
 
@@ -154,9 +155,10 @@ public class LevelCellsSpawner : MonoBehaviour
 
         _gridRectTransform.localPosition = new Vector3(xOffset, 0, 0);
 
-        Spawned?.Invoke(_spawnedCells.ToArray());
+        Spawned?.Invoke(_spawnedCells.ToArray(), rowCount, columnCount);
         ColorsChanged?.Invoke(colorsStack.ToArray());
         LevelChanged?.Invoke(_levelsData[_activeLevelIndex], offset);
+        SideDataSet?.Invoke(_spawnedRowsData.ToArray(), _spawnedColumnsData.ToArray());
 
         _activeLevelIndex++;
 

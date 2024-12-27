@@ -74,7 +74,7 @@ public class WinPanelShower : MonoBehaviour
     public IEnumerator ShowingWinPanel()
     {
         _winPanel.gameObject.SetActive(true);
-        _finalImage.gameObject.SetActive(true);
+        _finalImage.enabled = true;
         _labelsParent.gameObject.SetActive(false);
         _videoImage.enabled = false;
 
@@ -87,14 +87,16 @@ public class WinPanelShower : MonoBehaviour
             yield return null;
         }
 
-        _videoPlayer.Play();
+        _videoPlayer.Prepare();
 
-        while(_videoPlayer.isPlaying == false)
+        while(_videoPlayer.isPrepared == false)
         {
             yield return null;
         }
 
-        _finalImage.gameObject.SetActive(false);
+        _videoPlayer.Play();
+
+        _finalImage.enabled = false;
         _videoImage.enabled = true;
         _labelsParent.SetActive(true);
 
@@ -119,7 +121,7 @@ public class WinPanelShower : MonoBehaviour
     private void HidePanels()
     {
         _winPanel.gameObject.SetActive(false);
-        _finalImage.gameObject.SetActive(false);
+        _finalImage.enabled = false;
         _labelsParent.gameObject.SetActive(false);
         _restartLevelButton.gameObject.SetActive(false);
         _nextLevelButton.gameObject.SetActive(false);

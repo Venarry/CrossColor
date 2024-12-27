@@ -38,6 +38,8 @@ public class GameEntryPoint : MonoBehaviour
         _cellsClickHandler = new(_levelCellsSpawner, _colorPicker, healthModel, _winHandler);
         _cellsClickHandler.Enable();
 
+        SideDataColorSwitcher sideDataColorSwitcher = new(_levelCellsSpawner);
+
         _deathHandler = new(healthModel, _losePanel);
         _deathHandler.Enable();
 
