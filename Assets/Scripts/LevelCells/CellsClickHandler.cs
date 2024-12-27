@@ -44,6 +44,11 @@ public class CellsClickHandler
 
     private void OnCellClick(NonogramCell cell)
     {
+        if (cell.IsActivated == true)
+        {
+            return;
+        }
+
         if(_colorPicker.SelectedColorKey == cell.WinColorKey)
         {
             cell.ActiveCell(_colorPicker.SelectedColor);

@@ -11,23 +11,24 @@ public class GameEntryPoint : MonoBehaviour
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private GameObject _winPanel;
     [SerializeField] private Image _finalImage;
+    [SerializeField] private WinHandler _winHandler;
 
     private CellsClickHandler _cellsClickHandler;
     private DeathHandler _deathHandler;
-    private WinHandler _winHandler;
 
     private async void Awake()
     {
         StreaminAssetsReader streaminAssetsReader = new();
         ColorsDataSource colorsDataSource = new();
         LevelData level = await streaminAssetsReader.ReadAsync<LevelData>("level1.json");
+        CoroutineProvider coroutineProvider = new GameObject("CoroputineProvider").AddComponent<CoroutineProvider>();
 
         int health = 3;
         HealthModel healthModel = new(health);
 
         _levelCellsSpawner.Init(colorsDataSource);
 
-        _winHandler = new(_winPanel);
+        _winHandler.Enable();
 
         _cellsClickHandler = new(_levelCellsSpawner, _colorPicker, healthModel, _winHandler);
         _cellsClickHandler.Enable();
