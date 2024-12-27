@@ -19,5 +19,8 @@ public class LineDataText : MonoBehaviour
     public void DisableTextColor()
     {
         _label.color = _textDisabledColor;
+
+        float colorDivider = 0.7f;
+        _image.color = new Color(_image.color.r * colorDivider, _image.color.g * colorDivider, _image.color.b * colorDivider);
     }
 }
