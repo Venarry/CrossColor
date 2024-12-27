@@ -36,8 +36,10 @@ public class WinHandler : MonoBehaviour
         _finalImage.sprite = levelData.Sprite;
         _videoPlayer.clip = levelData.VideoClip;
 
-        _finalImage.transform.localPosition += offset;
-        _videoPlayer.transform.localPosition += offset;
+        _finalImage.transform.localPosition = offset;
+        _videoPlayer.transform.localPosition = offset;
+
+        HidePanels();
     }
 
     public async void Activate()
@@ -45,6 +47,7 @@ public class WinHandler : MonoBehaviour
         _winPanel.gameObject.SetActive(true);
         _finalImage.gameObject.SetActive(true);
         _videoPlayer.gameObject.SetActive(false);
+        _labelsParent.gameObject.SetActive(false);
 
         Color winPanelColor = _winPanel.color;
         winPanelColor.a = 0;
@@ -67,5 +70,13 @@ public class WinHandler : MonoBehaviour
 
         _videoPlayer.gameObject.SetActive(true);
         _labelsParent.SetActive(true);
+    }
+
+    private void HidePanels()
+    {
+        _videoPlayer.gameObject.SetActive(false);
+        _winPanel.gameObject.SetActive(false);
+        _finalImage.gameObject.SetActive(false);
+        _labelsParent.gameObject.SetActive(false);
     }
 }

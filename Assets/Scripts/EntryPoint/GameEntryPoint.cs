@@ -68,4 +68,12 @@ public class GameEntryPoint : MonoBehaviour
 
         return levels.ToArray();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _winHandler.Activate();
+        }
+    }
 }

@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class LevelCellsSpawner : MonoBehaviour
 {
-    private const float CellsSpace = 100;
-    private const float CellsOutline = 2;
-
     [SerializeField] private NonogramCell _nonogramCellPrefab;
     [SerializeField] private LineData _rowDataPrefab;
     [SerializeField] private LineData _columnDataPrefab;
@@ -20,6 +15,9 @@ public class LevelCellsSpawner : MonoBehaviour
     [SerializeField] private Transform _columnsDataParent;
 
     private readonly List<NonogramCell> _spawnedCells = new();
+    private readonly List<LineData> _spawnedRowsData = new();
+    private readonly List<LineData> _spawnedColumnsData = new();
+
     private ColorsDataSource _colorsDataSource;
     private RectTransform _gridRectTransform;
     private RectTransform _rowParentRectTransform;
@@ -50,6 +48,11 @@ public class LevelCellsSpawner : MonoBehaviour
         if(_activeLevelIndex >= _levelsLoadData.Length)
         {
             return;
+        }
+
+        if(_spawnedCells.Count > 0)
+        {
+            ClearMap();
         }
 
         LevelLoadData levelData = _levelsLoadData[_activeLevelIndex];
@@ -100,24 +103,36 @@ public class LevelCellsSpawner : MonoBehaviour
             rowData.Init(levelData.rows[i].data, _colorsDataSource);
 
             rowData.GetComponent<RectTransform>().sizeDelta = cellsSize;
+
+            _spawnedRowsData.Add(rowData);
         }
 
         for (int i = 0; i < columnCount; i++)
         {
-            LineData rowData = Instantiate(_columnDataPrefab, _columnsDataParent);
-            rowData.Init(levelData.columns[i].data, _colorsDataSource);
+            LineData columnData = Instantiate(_columnDataPrefab, _columnsDataParent);
+            columnData.Init(levelData.columns[i].data, _colorsDataSource);
 
-            rowData.GetComponent<RectTransform>().sizeDelta = cellsSize;
+            columnData.GetComponent<RectTransform>().sizeDelta = cellsSize;
+
+            _spawnedColumnsData.Add(columnData);
         }
 
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(gridRectTransform);
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(rowParentRectTransform);
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(columnParentRectTransform);
+        //LayoutRebuilder.MarkLayoutForRebuild(_gridRectTransform);
+        //LayoutRebuilder.MarkLayoutForRebuild(_rowParentRectTransform);
+        //LayoutRebuilder.MarkLayoutForRebuild(_columnParentRectTransform);
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(_gridRectTransform);
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(_rowParentRectTransform);
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(_columnParentRectTransform);
+        //Canvas.ForceUpdateCanvases();
 
-        while (_gridRectTransform.sizeDelta.x == 0)
+        UpdateContainerSize(_gridRectTransform, _gridLayout);
+        UpdateHorizontalLayoutSize(_columnParentRectTransform, _columnParentRectTransform.GetComponent<HorizontalLayoutGroup>());
+        UpdateVerticalLayoutSize(_rowParentRectTransform, _rowParentRectTransform.GetComponent<VerticalLayoutGroup>());
+
+        /*while (_gridRectTransform.sizeDelta.x == 0)
         {
             await Task.Yield();
-        }
+        }*/
 
         float sizeDivider = 2;
         float xOffset = _rowParentRectTransform.sizeDelta.x / 2;
@@ -130,7 +145,7 @@ public class LevelCellsSpawner : MonoBehaviour
         float columnDataYPosition = _gridRectTransform.sizeDelta.y / sizeDivider + _columnParentRectTransform.sizeDelta.y / sizeDivider;
         _columnsDataParent.localPosition = new Vector2(0, columnDataYPosition) + offset;
 
-        _gridRectTransform.localPosition += new Vector3(xOffset, 0, 0);
+        _gridRectTransform.localPosition = new Vector3(xOffset, 0, 0);
 
         Spawned?.Invoke(_spawnedCells.ToArray());
         ColorsChanged?.Invoke(colorsStack.ToArray());
@@ -141,4 +156,85 @@ public class LevelCellsSpawner : MonoBehaviour
 
     public Vector2 GetGridSize() =>
         _gridRectTransform.sizeDelta;
+
+    private void ClearMap()
+    {
+        foreach (NonogramCell cell in _spawnedCells)
+        {
+            DestroyImmediate(cell.gameObject);
+        }
+
+        foreach (LineData lineData in _spawnedRowsData)
+        {
+            DestroyImmediate(lineData.gameObject);
+        }
+
+        foreach (LineData lineData in _spawnedColumnsData)
+        {
+            DestroyImmediate(lineData.gameObject);
+        }
+
+        _spawnedCells.Clear();
+        _spawnedRowsData.Clear();
+        _spawnedColumnsData.Clear();
+    }
+
+    private void UpdateContainerSize(RectTransform container, GridLayoutGroup layoutGroup)
+    {
+        RectOffset padding = layoutGroup.padding;
+        Vector2 cellSize = layoutGroup.cellSize;
+        Vector2 spacing = layoutGroup.spacing;
+
+        int childCount = container.childCount;
+
+        int columnCount = Mathf.Max(1, layoutGroup.constraintCount);
+        int rowCount = Mathf.CeilToInt((float)childCount / columnCount);
+
+        float newWidth = padding.left + padding.right + columnCount * cellSize.x + (columnCount - 1) * spacing.x;
+        float newHeight = padding.top + padding.bottom + rowCount * cellSize.y + (rowCount - 1) * spacing.y;
+
+        container.sizeDelta = new Vector2(newWidth, newHeight);
+    }
+
+    void UpdateHorizontalLayoutSize(RectTransform container, HorizontalLayoutGroup layoutGroup)
+    {
+        RectOffset padding = layoutGroup.padding;
+        float spacing = layoutGroup.spacing;
+
+        float totalWidth = padding.left + padding.right;
+        float maxHeight = 0f;
+
+        foreach (RectTransform child in container)
+        {
+            if (!child.gameObject.activeSelf) continue;
+
+            totalWidth += child.rect.width + spacing;
+            maxHeight = Mathf.Max(maxHeight, child.rect.height);
+        }
+
+        totalWidth -= spacing;
+
+        container.sizeDelta = new Vector2(totalWidth, padding.top + padding.bottom + maxHeight);
+    }
+
+    void UpdateVerticalLayoutSize(RectTransform container, VerticalLayoutGroup layoutGroup)
+    {
+        RectOffset padding = layoutGroup.padding;
+        float spacing = layoutGroup.spacing;
+
+        float totalHeight = padding.top + padding.bottom;
+        float maxWidth = 0f;
+
+        foreach (RectTransform child in container)
+        {
+            if (!child.gameObject.activeSelf) continue;
+
+            totalHeight += child.rect.height + spacing;
+            maxWidth = Mathf.Max(maxWidth, child.rect.width);
+        }
+
+        totalHeight -= spacing;
+
+        container.sizeDelta = new Vector2(padding.left + padding.right + maxWidth, totalHeight);
+    }
 }
