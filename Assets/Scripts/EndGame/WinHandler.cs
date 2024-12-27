@@ -1,12 +1,14 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class WinHandler : MonoBehaviour
 {
     [SerializeField] private Image _winPanel;
     [SerializeField] private GameObject _labelsParent;
     [SerializeField] private Image _finalImage;
+    [SerializeField] private RawImage _videoClip;
     [SerializeField] private LevelCellsSpawner _levelCellsSpawner;
 
     private readonly float _finalImageFadeDuration = 2f;
@@ -26,15 +28,17 @@ public class WinHandler : MonoBehaviour
         _levelCellsSpawner.Spawned -= OnLevelSpawn;
     }
 
-    private void OnLevelSpawn(NonogramCell[] obj)
+    private void OnLevelSpawn(NonogramCell[] cells)
     {
         _finalImage.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
+        _videoClip.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
     }
 
     public async void Activate()
     {
         _winPanel.gameObject.SetActive(true);
         _finalImage.gameObject.SetActive(true);
+        _videoClip.gameObject.SetActive(false);
 
         Color winPanelColor = _winPanel.color;
         winPanelColor.a = 0;
@@ -55,6 +59,7 @@ public class WinHandler : MonoBehaviour
         winPanelColor.a = 1;
         _winPanel.color = winPanelColor;
 
+        _videoClip.gameObject.SetActive(true);
         _labelsParent.SetActive(true);
     }
 }
