@@ -1,8 +1,4 @@
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ColorPicker : MonoBehaviour
 {
@@ -14,12 +10,6 @@ public class ColorPicker : MonoBehaviour
 
     private LevelCellsSpawner _levelCellsSpawner;
     private ColorsDataSource _colorsDataSource;
-
-    public Colors? selectedColor = Colors.Red;
-    public bool isCrossToolActive;
-
-    public GameObject buttonPrefab; // Префаб кнопки для выбора цвета
-    public Transform toolsParent; // Родитель для кнопок инструментов
 
     public Color SelectedColor { get; private set; }
     public string SelectedColorKey { get; private set; }
@@ -42,38 +32,11 @@ public class ColorPicker : MonoBehaviour
         GenerateColorButtons(colorsKeys);
     }
 
-    /*public void SetColor(int colorIndex)
-    {
-        selectedColor = (Colors)colorIndex;
-        isCrossToolActive = false; 
-    }*/
-
     public void SetColor(string colorKey)
     {
         SelectedColorKey = colorKey;
 
         SelectedColor = _colorsDataSource.Get(colorKey);
-    }
-
-    // Активирует инструмент "крест"
-    public void ActivateCrossTool()
-    {
-        selectedColor = null;
-        isCrossToolActive = true;
-    }
-    
-    public Color GetSelectedColor()
-    {
-        if (selectedColor.HasValue)
-        {
-            string colorName = selectedColor.Value.ToString();
-            if (GridManager.Instance.colorMap.TryGetValue(colorName, out Color color))
-            {
-                return color;
-            }
-        }
-
-        return Color.clear;
     }
 
     public void GenerateColorButtons(string[] colorsKeys)
