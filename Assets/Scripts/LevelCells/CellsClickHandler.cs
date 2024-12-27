@@ -1,19 +1,19 @@
-﻿
-using UnityEngine;
-
-public class CellsClickHandler
+﻿public class CellsClickHandler
 {
     private readonly LevelCellsSpawner _levelCellsSpawner;
     private readonly ColorPicker _colorPicker;
+    private readonly HealthModel _healthModel;
 
     private NonogramCell[] _activeCells;
 
     public CellsClickHandler(
         LevelCellsSpawner levelCellsSpawner,
-        ColorPicker colorPicker)
+        ColorPicker colorPicker,
+        HealthModel healthModel)
     {
         _levelCellsSpawner = levelCellsSpawner;
         _colorPicker = colorPicker;
+        _healthModel = healthModel;
 
         _levelCellsSpawner.Spawned += OnCellsSpawn;
     }
@@ -38,6 +38,7 @@ public class CellsClickHandler
         else
         {
             cell.EnableWrongColor();
+            _healthModel.TakeDamage();
         }
     }
 }
