@@ -15,16 +15,9 @@ public class GameEntryPoint : MonoBehaviour
         LevelData level = await streaminAssetsReader.ReadAsync<LevelData>("level1.json");
 
         _levelCellsSpawner.Init(colorsDataSource);
-
-        int[][,] levels = _levelsDataSource.Levels;
-        LevelColorsSO levelColors = _levelsDataSource.LevelColors[0];
-
-        //_colorPicker.GenerateColorButtons(levelColors);
-        CellsClickHandler cellsClickHandler = new(_levelCellsSpawner, _colorPicker, levelColors);
-
-        //_levelCellsSpawner.SpawnLevel(levels[0], levelColors);
-
+        CellsClickHandler cellsClickHandler = new(_levelCellsSpawner, _colorPicker);
         _colorPicker.Init(_levelCellsSpawner, colorsDataSource);
+
         _levelCellsSpawner.SpawnLevel(level);
     }
 }

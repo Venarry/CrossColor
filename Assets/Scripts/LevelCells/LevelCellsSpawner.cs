@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,7 +54,7 @@ public class LevelCellsSpawner : MonoBehaviour
         //Spawned?.Invoke(_spawnedCells.ToArray());
     }
 
-    public void SpawnLevel(LevelData levelData)
+    public async void SpawnLevel(LevelData levelData)
     {
         /*LevelGrid levelGrid = new();
         int elementCount = 0;
@@ -170,7 +171,7 @@ public class LevelCellsSpawner : MonoBehaviour
         for (int i = 0; i < columnCount; i++)
         {
             LineData rowData = Instantiate(_columnDataPrefab, _columnsDataParent);
-            rowData.Init(levelData.columns[i].data, _colorsDataSource); //levelData.columns[i].data.Select(c => c.count).ToArray()
+            rowData.Init(levelData.columns[i].data, _colorsDataSource);
 
             rowData.GetComponent<RectTransform>().sizeDelta = cellsSize;
         }
@@ -179,9 +180,14 @@ public class LevelCellsSpawner : MonoBehaviour
         RectTransform rowParentRectTransform = _rowsDataParent.GetComponent<RectTransform>();
         RectTransform columnParentRectTransform = _columnsDataParent.GetComponent<RectTransform>();
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(gridRectTransform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(rowParentRectTransform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(columnParentRectTransform);
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(gridRectTransform);
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(rowParentRectTransform);
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(columnParentRectTransform);
+
+        while (gridRectTransform.sizeDelta.x == 0)
+        {
+            await Task.Yield();
+        }
 
         float sizeDivider = 2;
 
@@ -194,9 +200,4 @@ public class LevelCellsSpawner : MonoBehaviour
         Spawned?.Invoke(_spawnedCells.ToArray());
         ColorsChanged?.Invoke(colorsStack.ToArray());
     }
-}
-
-public class CellFactory
-{
-
 }

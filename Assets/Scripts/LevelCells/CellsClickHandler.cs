@@ -5,18 +5,15 @@ public class CellsClickHandler
 {
     private readonly LevelCellsSpawner _levelCellsSpawner;
     private readonly ColorPicker _colorPicker;
-    private LevelColorsSO _levelColors;
 
     private NonogramCell[] _activeCells;
 
     public CellsClickHandler(
         LevelCellsSpawner levelCellsSpawner,
-        ColorPicker colorPicker,
-        LevelColorsSO levelColors)
+        ColorPicker colorPicker)
     {
         _levelCellsSpawner = levelCellsSpawner;
         _colorPicker = colorPicker;
-        _levelColors = levelColors;
 
         _levelCellsSpawner.Spawned += OnCellsSpawn;
     }
@@ -36,11 +33,11 @@ public class CellsClickHandler
     {
         if(_colorPicker.SelectedColorKey == cell.WinColorKey)
         {
-            cell.SetColor(_colorPicker.SelectedColor);
+            cell.ActiveCell(_colorPicker.SelectedColor);
         }
         else
         {
-            Debug.Log("wrong");
+            cell.EnableWrongColor();
         }
     }
 }
