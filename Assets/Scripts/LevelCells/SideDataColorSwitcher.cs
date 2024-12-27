@@ -45,9 +45,6 @@
     {
         for (int i = 0; i < _columnCount; i++)
         {
-            //Debug.Log($"{_cells[i + (cell.RowIndex * _columnCount)].RowIndex} {_cells[i + (cell.RowIndex * _columnCount)].ColumnIndex}");
-            //Debug.Log(_cells[i + (cell.RowIndex * _columnCount)].IsActivated);
-
             if (_cells[i + (rowIndex * _columnCount)].IsActivated == false)
             {
                 return;

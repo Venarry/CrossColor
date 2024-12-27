@@ -90,6 +90,7 @@ public class LevelCellsSpawner : MonoBehaviour
                     NonogramCell cell = Instantiate(_nonogramCellPrefab, _gridLayout.transform);
                     cell.SetIndex(i, columnIndex);
                     cell.SetWinCondition(colorKey);
+                    cell.gameObject.name = $"Cell {i} {columnIndex}";
                     columnIndex++;
 
                     _spawnedCells.Add(cell);

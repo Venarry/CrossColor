@@ -7,6 +7,7 @@ public class LineData : MonoBehaviour
     [SerializeField] private LineDataText _lineDataTextPrefab;
 
     private readonly List<LineDataText> _lines = new();
+    private bool _disabled = false;
 
     public void Init(List<CellData> cellsData, ColorsDataSource colorsDataSource)
     {
@@ -21,9 +22,16 @@ public class LineData : MonoBehaviour
 
     public void DisableTextColor()
     {
+        if(_disabled == true)
+        {
+            return;
+        }
+
         foreach (LineDataText line in _lines)
         {
             line.DisableTextColor();
         }
+
+        _disabled = true;
     }
 }

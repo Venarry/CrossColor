@@ -10,6 +10,7 @@ public class GameEntryPoint : MonoBehaviour
     [SerializeField] private LevelCellsSpawner _levelCellsSpawner;
     [SerializeField] private LevelsDataSource _levelsDataSource;
     [SerializeField] private ColorPicker _colorPicker;
+    [SerializeField] private SwipeHandler _swipeHandler;
     [SerializeField] private HealthView _healthView;
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private GameObject _winPanel;
@@ -40,6 +41,7 @@ public class GameEntryPoint : MonoBehaviour
 
         SideDataColorSwitcher sideDataColorSwitcher = new(_levelCellsSpawner);
 
+        _swipeHandler.Init(_cellsClickHandler);
         _deathHandler = new(healthModel, _losePanel);
         _deathHandler.Enable();
 

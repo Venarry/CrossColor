@@ -22,7 +22,7 @@ public class CellsClickHandler
         _winHandler = winHandler;
     }
 
-    public event Action<NonogramCell> Clicked;
+    public event Action WrongClicked;
 
     public void Enable()
     {
@@ -61,9 +61,9 @@ public class CellsClickHandler
         {
             cell.EnableWrongColor();
             _healthModel.TakeDamage();
-        }
 
-        //Clicked
+            WrongClicked?.Invoke();
+        }
     }
 
     private void TryWinGame()

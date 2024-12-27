@@ -31,9 +31,14 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
         WinColorKey = colorKey;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void ClickOnCell()
     {
         Clicked?.Invoke(this);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //Clicked?.Invoke(this);
     }
 
     public void ActiveCell(Color color)
