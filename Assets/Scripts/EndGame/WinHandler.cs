@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class WinHandler : MonoBehaviour
 {
     [SerializeField] private Image _winPanel;
+    [SerializeField] private GameObject _labelsParent;
     [SerializeField] private Image _finalImage;
     [SerializeField] private LevelCellsSpawner _levelCellsSpawner;
 
@@ -33,6 +34,7 @@ public class WinHandler : MonoBehaviour
     public async void Activate()
     {
         _winPanel.gameObject.SetActive(true);
+        _finalImage.gameObject.SetActive(true);
 
         Color winPanelColor = _winPanel.color;
         winPanelColor.a = 0;
@@ -52,5 +54,7 @@ public class WinHandler : MonoBehaviour
 
         winPanelColor.a = 1;
         _winPanel.color = winPanelColor;
+
+        _labelsParent.SetActive(true);
     }
 }

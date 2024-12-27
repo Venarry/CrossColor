@@ -23,20 +23,25 @@ public class LevelCellsSpawner : MonoBehaviour
     private RectTransform _gridRectTransform;
     private RectTransform _rowParentRectTransform;
     private RectTransform _columnParentRectTransform;
+    private LevelData[] _levels;
+    private int _activeLevelIndex = 0;
 
     public event Action<NonogramCell[]> Spawned;
     public event Action<string[]> ColorsChanged;
 
-    public void Init(ColorsDataSource colorsDataSource)
+    public void Init(ColorsDataSource colorsDataSource, LevelData[] levels)
     {
         _colorsDataSource = colorsDataSource;
 
         _gridRectTransform = _gridLayout.GetComponent<RectTransform>();
         _rowParentRectTransform = _rowsDataParent.GetComponent<RectTransform>();
         _columnParentRectTransform = _columnsDataParent.GetComponent<RectTransform>();
+
+        _activeLevelIndex = 0;
+        _levels = levels;
     }
 
-    public void SpawnLevel(int[,] levelData, LevelColorsSO levelColors)
+    /*public void SpawnLevel(int[,] levelData, LevelColorsSO levelColors)
     {
         LevelGrid levelGrid = new();
         levelGrid.Generate(levelData.Length, levelData.GetLength(0), CellsSpace - CellsOutline);
@@ -59,9 +64,9 @@ public class LevelCellsSpawner : MonoBehaviour
         }
 
         //Spawned?.Invoke(_spawnedCells.ToArray());
-    }
+    }*/
 
-    public async Task SpawnLevel(LevelData levelData)
+    public async Task SpawnLevel()
     {
         /*LevelGrid levelGrid = new();
         int elementCount = 0;
@@ -132,6 +137,9 @@ public class LevelCellsSpawner : MonoBehaviour
 
             rowData.transform.localPosition = levelGrid.GetPosition(0, i + 1);
         }*/
+
+        LevelData levelData = _levels[_activeLevelIndex];
+        _activeLevelIndex++;
 
         int columnCount = 0;
 

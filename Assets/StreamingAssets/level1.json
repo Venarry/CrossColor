@@ -27,8 +27,12 @@
     {
       "data": [
         {
-          "count": 4,
+          "count": 3,
           "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Pink"
         }
       ]
     }
@@ -73,8 +77,12 @@
           "color": "Red"
         },
         {
-          "count": 2,
+          "count": 1,
           "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Pink"
         }
       ]
     }
