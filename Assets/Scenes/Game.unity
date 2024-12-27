@@ -3603,6 +3603,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelsName:
+  - LevelName: level2
+    Sprite: {fileID: 21300000, guid: 15a70e5bf6ba93342a4197ed18aaa062, type: 3}
+    VideoClip: {fileID: 32900000, guid: 5f6f979d0d902a94eb0f1e94d2518af1, type: 3}
   - LevelName: level1
     Sprite: {fileID: 21300000, guid: 738c6f51eb3484448b689cee67fbe12c, type: 3}
     VideoClip: {fileID: 32900000, guid: 4bb18258f2ca9ba49908e6731cb093cf, type: 3}

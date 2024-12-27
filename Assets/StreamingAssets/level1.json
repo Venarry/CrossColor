@@ -35,6 +35,14 @@
           "color": "Pink"
         }
       ]
+    },
+    {
+      "data": [
+        {
+          "count": 4,
+          "color": "Red"
+        }
+      ]
     }
   ],
   "columns": [
@@ -47,6 +55,10 @@
         {
           "count": 2,
           "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Red"
         }
       ]
     },
@@ -59,6 +71,10 @@
         {
           "count": 2,
           "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Red"
         }
       ]
     },
@@ -67,6 +83,10 @@
         {
           "count": 3,
           "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Red"
         }
       ]
     },
@@ -83,6 +103,10 @@
         {
           "count": 1,
           "color": "Pink"
+        },
+        {
+          "count": 1,
+          "color": "Red"
         }
       ]
     }
