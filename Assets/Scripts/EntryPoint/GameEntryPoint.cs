@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameEntryPoint : MonoBehaviour
 {
@@ -6,6 +8,13 @@ public class GameEntryPoint : MonoBehaviour
     [SerializeField] private LevelsDataSource _levelsDataSource;
     [SerializeField] private ColorPicker _colorPicker;
     [SerializeField] private HealthView _healthView;
+    [SerializeField] private GameObject _losePanel;
+    [SerializeField] private GameObject _winPanel;
+    [SerializeField] private Image _finalImage;
+
+    private CellsClickHandler _cellsClickHandler;
+    private DeathHandler _deathHandler;
+    private WinHandler _winHandler;
 
     private async void Awake()
     {
@@ -17,10 +26,26 @@ public class GameEntryPoint : MonoBehaviour
         HealthModel healthModel = new(health);
 
         _levelCellsSpawner.Init(colorsDataSource);
-        CellsClickHandler cellsClickHandler = new(_levelCellsSpawner, _colorPicker, healthModel);
+
+        _winHandler = new(_winPanel);
+
+        _cellsClickHandler = new(_levelCellsSpawner, _colorPicker, healthModel, _winHandler);
+        _cellsClickHandler.Enable();
+
+        _deathHandler = new(healthModel, _losePanel);
+        _deathHandler.Enable();
+
         _colorPicker.Init(_levelCellsSpawner, colorsDataSource);
         _healthView.Init(healthModel);
 
-        _levelCellsSpawner.SpawnLevel(level);
+        await _levelCellsSpawner.SpawnLevel(level);
+
+        _finalImage.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
+    }
+
+    private void OnDestroy()
+    {
+        _cellsClickHandler.Disable();
+        _deathHandler.Disable();
     }
 }

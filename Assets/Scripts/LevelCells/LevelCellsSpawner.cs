@@ -20,6 +20,9 @@ public class LevelCellsSpawner : MonoBehaviour
 
     private readonly List<NonogramCell> _spawnedCells = new();
     private ColorsDataSource _colorsDataSource;
+    private RectTransform _gridRectTransform;
+    private RectTransform _rowParentRectTransform;
+    private RectTransform _columnParentRectTransform;
 
     public event Action<NonogramCell[]> Spawned;
     public event Action<string[]> ColorsChanged;
@@ -27,6 +30,10 @@ public class LevelCellsSpawner : MonoBehaviour
     public void Init(ColorsDataSource colorsDataSource)
     {
         _colorsDataSource = colorsDataSource;
+
+        _gridRectTransform = _gridLayout.GetComponent<RectTransform>();
+        _rowParentRectTransform = _rowsDataParent.GetComponent<RectTransform>();
+        _columnParentRectTransform = _columnsDataParent.GetComponent<RectTransform>();
     }
 
     public void SpawnLevel(int[,] levelData, LevelColorsSO levelColors)
@@ -54,7 +61,7 @@ public class LevelCellsSpawner : MonoBehaviour
         //Spawned?.Invoke(_spawnedCells.ToArray());
     }
 
-    public async void SpawnLevel(LevelData levelData)
+    public async Task SpawnLevel(LevelData levelData)
     {
         /*LevelGrid levelGrid = new();
         int elementCount = 0;
@@ -176,28 +183,27 @@ public class LevelCellsSpawner : MonoBehaviour
             rowData.GetComponent<RectTransform>().sizeDelta = cellsSize;
         }
 
-        RectTransform gridRectTransform = _gridLayout.GetComponent<RectTransform>();
-        RectTransform rowParentRectTransform = _rowsDataParent.GetComponent<RectTransform>();
-        RectTransform columnParentRectTransform = _columnsDataParent.GetComponent<RectTransform>();
-
         //LayoutRebuilder.ForceRebuildLayoutImmediate(gridRectTransform);
         //LayoutRebuilder.ForceRebuildLayoutImmediate(rowParentRectTransform);
         //LayoutRebuilder.ForceRebuildLayoutImmediate(columnParentRectTransform);
 
-        while (gridRectTransform.sizeDelta.x == 0)
+        while (_gridRectTransform.sizeDelta.x == 0)
         {
             await Task.Yield();
         }
 
         float sizeDivider = 2;
 
-        float rowDataXPosition = -gridRectTransform.sizeDelta.x / sizeDivider - rowParentRectTransform.sizeDelta.x / sizeDivider;
+        float rowDataXPosition = -_gridRectTransform.sizeDelta.x / sizeDivider - _rowParentRectTransform.sizeDelta.x / sizeDivider;
         _rowsDataParent.localPosition = new Vector2(rowDataXPosition, 0);
 
-        float columnDataYPosition = gridRectTransform.sizeDelta.y / sizeDivider + columnParentRectTransform.sizeDelta.y / sizeDivider;
+        float columnDataYPosition = _gridRectTransform.sizeDelta.y / sizeDivider + _columnParentRectTransform.sizeDelta.y / sizeDivider;
         _columnsDataParent.localPosition = new Vector2(0, columnDataYPosition);
 
         Spawned?.Invoke(_spawnedCells.ToArray());
         ColorsChanged?.Invoke(colorsStack.ToArray());
     }
+
+    public Vector2 GetGridSize() =>
+        _gridRectTransform.sizeDelta;
 }

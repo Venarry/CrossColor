@@ -16,7 +16,7 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
 
     public Color CellColor => _image.color;
     public string WinColorKey { get; private set; }
-    public bool IsActive { get; private set; } = false;
+    public bool IsActivated { get; private set; } = false;
 
     public void SetWinCondition(string colorKey)
     {
@@ -32,7 +32,7 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
     {
         StopWrongFading();
         _image.color = color;
-        IsActive = true;
+        IsActivated = true;
     }
 
     public void EnableWrongColor()
