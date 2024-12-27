@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -12,12 +13,26 @@ public class WinPanelShower : MonoBehaviour
     [SerializeField] private Button _restartLevelButton;
     [SerializeField] private Image _finalImage;
     [SerializeField] private VideoPlayer _videoPlayer;
+    [SerializeField] private RawImage _videoImage;
 
     private readonly float _finalImageFadeDuration = 2f;
+    private Color _startWinPanelColor;
+    private Color _endWinPanelColor;
+    private Color _startFinalImageColor;
+    private Color _endFinalImageColor;
+    private Coroutine _showingPanelCoroutine;
 
     private void Awake()
     {
         _winPanel.gameObject.SetActive(false);
+
+        _startWinPanelColor = _winPanel.color;
+        _endWinPanelColor = _winPanel.color;
+        _startWinPanelColor.a = 0;
+
+        _startFinalImageColor = _finalImage.color;
+        _endFinalImageColor = _finalImage.color;
+        _startFinalImageColor.a = 0;
     }
 
     public void Enable()
@@ -37,6 +52,7 @@ public class WinPanelShower : MonoBehaviour
 
         _finalImage.sprite = levelData.Sprite;
         _videoPlayer.clip = levelData.VideoClip;
+        _videoPlayer.Stop();
 
         _finalImage.transform.localPosition = offset;
         _videoPlayer.transform.localPosition = offset;
@@ -44,33 +60,42 @@ public class WinPanelShower : MonoBehaviour
         HidePanels();
     }
 
-    public async void ShowWinPanel()
+    public void ShowWinPanel()
+    {
+        if(_showingPanelCoroutine != null)
+        {
+            StopCoroutine(_showingPanelCoroutine);
+            _showingPanelCoroutine = null;
+        }
+
+        _showingPanelCoroutine = StartCoroutine(ShowingWinPanel());
+    }
+
+    public IEnumerator ShowingWinPanel()
     {
         _winPanel.gameObject.SetActive(true);
         _finalImage.gameObject.SetActive(true);
-        _videoPlayer.gameObject.SetActive(false);
         _labelsParent.gameObject.SetActive(false);
+        _videoImage.enabled = false;
 
-        Color winPanelColor = _winPanel.color;
-        winPanelColor.a = 0;
-        _winPanel.color = winPanelColor;
-
-        Color startFinalImageColor = _finalImage.color;
-        Color endFinalImageColor = _finalImage.color;
-        startFinalImageColor.a = 0;
-
-        _finalImage.color = startFinalImageColor;
+        _winPanel.color = _startWinPanelColor;
+        _finalImage.color = _startFinalImageColor;
 
         for (float timer = 0; timer < _finalImageFadeDuration; timer += Time.deltaTime)
         {
-            _finalImage.color = Color.Lerp(startFinalImageColor, endFinalImageColor, timer / _finalImageFadeDuration);
-            await Task.Yield();
+            _finalImage.color = Color.Lerp(_startFinalImageColor, _endFinalImageColor, timer / _finalImageFadeDuration);
+            yield return null;
         }
 
-        winPanelColor.a = 1;
-        _winPanel.color = winPanelColor;
+        _videoPlayer.Play();
 
-        _videoPlayer.gameObject.SetActive(true);
+        while(_videoPlayer.isPlaying == false)
+        {
+            yield return null;
+        }
+
+        _finalImage.gameObject.SetActive(false);
+        _videoImage.enabled = true;
         _labelsParent.SetActive(true);
 
         if(_levelCellsSpawner.IsLastLevel == true)
@@ -81,11 +106,18 @@ public class WinPanelShower : MonoBehaviour
         {
             _nextLevelButton.gameObject.SetActive(true);
         }
+
+        for (float timer = 0; timer < _finalImageFadeDuration; timer += Time.deltaTime)
+        {
+            _winPanel.color = Color.Lerp(_startWinPanelColor, _endWinPanelColor, timer / _finalImageFadeDuration);
+            yield return null;
+        }
+
+        _showingPanelCoroutine = null;
     }
 
     private void HidePanels()
     {
-        _videoPlayer.gameObject.SetActive(false);
         _winPanel.gameObject.SetActive(false);
         _finalImage.gameObject.SetActive(false);
         _labelsParent.gameObject.SetActive(false);

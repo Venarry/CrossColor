@@ -1164,7 +1164,7 @@ VideoPlayer:
   m_EnabledAudioTracks: 
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 1
   m_WaitForFirstFrame: 1
@@ -1888,6 +1888,7 @@ MonoBehaviour:
   _restartLevelButton: {fileID: 1811901564}
   _finalImage: {fileID: 465702705}
   _videoPlayer: {fileID: 473865039}
+  _videoImage: {fileID: 473865042}
 --- !u!4 &665710833
 Transform:
   m_ObjectHideFlags: 0
