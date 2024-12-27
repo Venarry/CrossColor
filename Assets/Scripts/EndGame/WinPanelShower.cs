@@ -3,13 +3,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class WinHandler : MonoBehaviour
+public class WinPanelShower : MonoBehaviour
 {
+    [SerializeField] private LevelCellsSpawner _levelCellsSpawner;
     [SerializeField] private Image _winPanel;
     [SerializeField] private GameObject _labelsParent;
+    [SerializeField] private Button _nextLevelButton;
+    [SerializeField] private Button _restartLevelButton;
     [SerializeField] private Image _finalImage;
     [SerializeField] private VideoPlayer _videoPlayer;
-    [SerializeField] private LevelCellsSpawner _levelCellsSpawner;
 
     private readonly float _finalImageFadeDuration = 2f;
 
@@ -42,7 +44,7 @@ public class WinHandler : MonoBehaviour
         HidePanels();
     }
 
-    public async void Activate()
+    public async void ShowWinPanel()
     {
         _winPanel.gameObject.SetActive(true);
         _finalImage.gameObject.SetActive(true);
@@ -70,6 +72,15 @@ public class WinHandler : MonoBehaviour
 
         _videoPlayer.gameObject.SetActive(true);
         _labelsParent.SetActive(true);
+
+        if(_levelCellsSpawner.IsLastLevel == true)
+        {
+            _restartLevelButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            _nextLevelButton.gameObject.SetActive(true);
+        }
     }
 
     private void HidePanels()
@@ -78,5 +89,7 @@ public class WinHandler : MonoBehaviour
         _winPanel.gameObject.SetActive(false);
         _finalImage.gameObject.SetActive(false);
         _labelsParent.gameObject.SetActive(false);
+        _restartLevelButton.gameObject.SetActive(false);
+        _nextLevelButton.gameObject.SetActive(false);
     }
 }

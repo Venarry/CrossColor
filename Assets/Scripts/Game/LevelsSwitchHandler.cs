@@ -1,21 +1,28 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelsSwitchHandler : MonoBehaviour
 {
     [SerializeField] private Button _nextLevelButton;
+    [SerializeField] private Button _restartLevelButton;
     [SerializeField] private LevelCellsSpawner _levelCellsSpawner;
+    [SerializeField] private WinPanelShower _winPanelShower;
 
     private void OnEnable()
     {
-        _nextLevelButton.onClick.AddListener(StartNextLevel);
+        _nextLevelButton.onClick.AddListener(StartAvailableLevel);
+        _restartLevelButton.onClick.AddListener(RestartLevels);
     }
 
-    private async void StartNextLevel()
+
+    private void StartAvailableLevel()
     {
-        await _levelCellsSpawner.SpawnLevel();
+        _levelCellsSpawner.TrySpawnLevel();
+    }
+
+    private void RestartLevels()
+    {
+        _levelCellsSpawner.ResetLevels();
+        _levelCellsSpawner.TrySpawnLevel();
     }
 }

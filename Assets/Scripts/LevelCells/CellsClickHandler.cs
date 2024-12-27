@@ -5,7 +5,7 @@ public class CellsClickHandler
     private readonly LevelCellsSpawner _levelCellsSpawner;
     private readonly ColorPicker _colorPicker;
     private readonly HealthModel _healthModel;
-    private readonly WinHandler _winHandler;
+    private readonly WinPanelShower _winHandler;
 
     private NonogramCell[] _activeCells;
 
@@ -13,7 +13,7 @@ public class CellsClickHandler
         LevelCellsSpawner levelCellsSpawner,
         ColorPicker colorPicker,
         HealthModel healthModel,
-        WinHandler winHandler)
+        WinPanelShower winHandler)
     {
         _levelCellsSpawner = levelCellsSpawner;
         _colorPicker = colorPicker;
@@ -70,6 +70,6 @@ public class CellsClickHandler
             return;
         }
 
-        _winHandler.Activate();
+        _winHandler.ShowWinPanel();
     }
 }

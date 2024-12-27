@@ -30,6 +30,8 @@ public class LevelCellsSpawner : MonoBehaviour
     public event Action<string[]> ColorsChanged;
     public event Action<LevelData, Vector3> LevelChanged;
 
+    public bool IsLastLevel => _activeLevelIndex >= _levelsLoadData.Length;
+
     public void Init(ColorsDataSource colorsDataSource, LevelLoadData[] levelsLoadData, LevelData[] levelsData)
     {
         _colorsDataSource = colorsDataSource;
@@ -43,11 +45,16 @@ public class LevelCellsSpawner : MonoBehaviour
         _levelsData = levelsData;
     }
 
-    public async Task SpawnLevel()
+    public void ResetLevels()
     {
-        if(_activeLevelIndex >= _levelsLoadData.Length)
+        _activeLevelIndex = 0;
+    }
+
+    public bool TrySpawnLevel()
+    {
+        if(IsLastLevel == true)
         {
-            return;
+            return false;
         }
 
         if(_spawnedCells.Count > 0)
@@ -152,6 +159,8 @@ public class LevelCellsSpawner : MonoBehaviour
         LevelChanged?.Invoke(_levelsData[_activeLevelIndex], offset);
 
         _activeLevelIndex++;
+
+        return true;
     }
 
     public Vector2 GetGridSize() =>

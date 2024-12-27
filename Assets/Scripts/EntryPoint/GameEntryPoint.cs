@@ -14,7 +14,7 @@ public class GameEntryPoint : MonoBehaviour
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private GameObject _winPanel;
     [SerializeField] private Image _finalImage;
-    [SerializeField] private WinHandler _winHandler;
+    [SerializeField] private WinPanelShower _winHandler;
 
     private CellsClickHandler _cellsClickHandler;
     private DeathHandler _deathHandler;
@@ -44,7 +44,7 @@ public class GameEntryPoint : MonoBehaviour
         _colorPicker.Init(_levelCellsSpawner, colorsDataSource);
         _healthView.Init(healthModel);
 
-        await _levelCellsSpawner.SpawnLevel();
+        _levelCellsSpawner.TrySpawnLevel();
 
         _finalImage.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
     }
@@ -73,7 +73,7 @@ public class GameEntryPoint : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _winHandler.Activate();
+            _winHandler.ShowWinPanel();
         }
     }
 }
