@@ -28,13 +28,16 @@ public class WinHandler : MonoBehaviour
         _levelCellsSpawner.LevelChanged -= OnLevelSpawn;
     }
 
-    private void OnLevelSpawn(LevelData levelData)
+    private void OnLevelSpawn(LevelData levelData, Vector3 offset)
     {
         _finalImage.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
         _videoPlayer.GetComponent<RectTransform>().sizeDelta = _levelCellsSpawner.GetGridSize();
 
         _finalImage.sprite = levelData.Sprite;
         _videoPlayer.clip = levelData.VideoClip;
+
+        _finalImage.transform.localPosition += offset;
+        _videoPlayer.transform.localPosition += offset;
     }
 
     public async void Activate()

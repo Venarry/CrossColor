@@ -30,7 +30,7 @@ public class LevelCellsSpawner : MonoBehaviour
 
     public event Action<NonogramCell[]> Spawned;
     public event Action<string[]> ColorsChanged;
-    public event Action<LevelData> LevelChanged;
+    public event Action<LevelData, Vector3> LevelChanged;
 
     public void Init(ColorsDataSource colorsDataSource, LevelLoadData[] levelsLoadData, LevelData[] levelsData)
     {
@@ -86,7 +86,13 @@ public class LevelCellsSpawner : MonoBehaviour
             }
         }
 
-        Vector2 cellsSize = _gridLayout.cellSize;
+        int rowCount = _spawnedCells.Count / columnCount;
+        int maxSideLength = Math.Max(columnCount, rowCount);
+
+        float scaleFactor = 1100;
+        float sideSize = scaleFactor / maxSideLength;
+        Vector2 cellsSize = new(sideSize, sideSize);
+        _gridLayout.cellSize = cellsSize;
 
         for (int i = 0; i < levelData.rows.Count; i++)
         {
@@ -114,16 +120,21 @@ public class LevelCellsSpawner : MonoBehaviour
         }
 
         float sizeDivider = 2;
+        float xOffset = _rowParentRectTransform.sizeDelta.x / 2;
+
+        Vector2 offset = new(xOffset, 0);
 
         float rowDataXPosition = -_gridRectTransform.sizeDelta.x / sizeDivider - _rowParentRectTransform.sizeDelta.x / sizeDivider;
-        _rowsDataParent.localPosition = new Vector2(rowDataXPosition, 0);
+        _rowsDataParent.localPosition = new Vector2(rowDataXPosition, 0) + offset;
 
         float columnDataYPosition = _gridRectTransform.sizeDelta.y / sizeDivider + _columnParentRectTransform.sizeDelta.y / sizeDivider;
-        _columnsDataParent.localPosition = new Vector2(0, columnDataYPosition);
+        _columnsDataParent.localPosition = new Vector2(0, columnDataYPosition) + offset;
+
+        _gridRectTransform.localPosition += new Vector3(xOffset, 0, 0);
 
         Spawned?.Invoke(_spawnedCells.ToArray());
         ColorsChanged?.Invoke(colorsStack.ToArray());
-        LevelChanged?.Invoke(_levelsData[_activeLevelIndex]);
+        LevelChanged?.Invoke(_levelsData[_activeLevelIndex], offset);
 
         _activeLevelIndex++;
     }
