@@ -43,7 +43,7 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
         //Clicked?.Invoke(this);
     }
 
-    public void ActiveCell(Color color)
+    public void Activate(Color color)
     {
         StopWrongFading();
         _image.color = color;

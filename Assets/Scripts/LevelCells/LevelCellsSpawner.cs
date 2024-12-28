@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -128,6 +129,19 @@ public class LevelCellsSpawner : MonoBehaviour
                     NonogramCell cell = Instantiate(_nonogramCellPrefab, _gridLayout.transform);
                     cell.SetIndex(i, columnIndex);
                     cell.SetWinCondition(colorKey);
+
+                    if(levelLoadData.rows[i].data[j].filled == true)
+                    {
+                        if(_colorsDataSource.TryGet(colorKey, out Color color) == true)
+                        {
+                            cell.Activate(color);
+                        }
+                        else
+                        {
+                            cell.Cross();
+                        }
+                    }
+
                     cell.gameObject.name = $"Cell {i} {columnIndex}";
                     columnIndex++;
 
@@ -137,6 +151,35 @@ public class LevelCellsSpawner : MonoBehaviour
                     {
                         colorsStack.Add(colorKey);
                     }
+                }
+            }
+        }
+
+        for (int i = 0; i < levelLoadData.columns.Count; i++)
+        {
+            int rowIndex = 0;
+
+            for (int j = 0; j < levelLoadData.columns[i].data.Count; j++)
+            {
+                for (int k = 0; k < levelLoadData.columns[i].data[j].count; k++)
+                {
+                    string colorKey = levelLoadData.columns[i].data[j].color;
+
+                    if (levelLoadData.columns[i].data[j].filled == true)
+                    {
+                        NonogramCell cell = _spawnedCells.FirstOrDefault(c => c.RowIndex == rowIndex && c.ColumnIndex == i);
+
+                        if (_colorsDataSource.TryGet(colorKey, out Color color) == true)
+                        {
+                            cell.Activate(color);
+                        }
+                        else
+                        {
+                            cell.Cross();
+                        }
+                    }
+
+                    rowIndex++;
                 }
             }
         }

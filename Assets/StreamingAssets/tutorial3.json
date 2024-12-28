@@ -20,7 +20,8 @@
       "data": [
         {
           "count": 5,
-          "color": "Blue"
+          "color": "Blue",
+          "filled": "true"
         }
       ]
     }

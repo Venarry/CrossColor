@@ -68,7 +68,7 @@ public class CellsClickHandler
             }
             else
             {
-                cell.ActiveCell(_colorPicker.SelectedColor);
+                cell.Activate(_colorPicker.SelectedColor);
             }
 
             TryWinGame();
