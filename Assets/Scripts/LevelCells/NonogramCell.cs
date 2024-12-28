@@ -21,6 +21,7 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
     public bool IsActivated { get; private set; } = false;
     public int RowIndex { get; private set; }
     public int ColumnIndex { get; private set; }
+    public bool IsCrossCell => WinColorKey == ConstData.KeyCross;
 
     public void SetIndex(int i, int j)
     {
@@ -54,6 +55,9 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
 
     public void Cross()
     {
+        if (IsActivated == true)
+            return;
+
         StopWrongFading();
         _cross.gameObject.SetActive(true);
         IsActivated = true;

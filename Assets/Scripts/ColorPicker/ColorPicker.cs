@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ColorPicker : MonoBehaviour
 {
-    private const string KeyCross = "Space";
-
     [SerializeField] private ColorPickerButton _colorPickerButtonPrefab;
     [SerializeField] private ColorPickerButton _colorPickerCrossToolButtonPrefab;
     [SerializeField] private Transform _toolsParent;
@@ -59,7 +57,7 @@ public class ColorPicker : MonoBehaviour
 
         int startButtonIndex = 0;
 
-        ColorPickerButton crossButton = SpawnButton(Color.white, _colorPickerCrossToolButtonPrefab, KeyCross);
+        ColorPickerButton crossButton = SpawnButton(Color.white, _colorPickerCrossToolButtonPrefab, ConstData.KeyCross);
         _spawnedButtons.Add(crossButton);
 
         for (int i = 0; i < colorsKeys.Length; i++)

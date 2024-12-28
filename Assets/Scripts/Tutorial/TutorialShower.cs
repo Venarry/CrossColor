@@ -138,9 +138,9 @@ public class TutorialShower : MonoBehaviour
 
         KeyValuePair<string, List<NonogramCell>> cell = _cellsByColor.First();
 
+        ActiveTutorialColor = cell.Key;
         Coroutine coroutine = StartCoroutine(ShowFingerCellsClickTutorial(cell.Key, cell.Value.ToArray()));
         _fingersCoroutine.Add(coroutine);
-        ActiveTutorialColor = cell.Key;
     }
 
     private int GetNextIndex(int currentIndex, int maxCount, out bool reseted)

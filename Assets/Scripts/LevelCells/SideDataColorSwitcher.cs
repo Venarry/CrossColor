@@ -1,4 +1,7 @@
-﻿public class SideDataColorSwitcher
+﻿
+using UnityEngine;
+
+public class SideDataColorSwitcher
 {
     private LevelCellsSpawner _levelCellsSpawner;
     private NonogramCell[] _cells;
@@ -54,9 +57,14 @@
     {
         for (int i = 0; i < _columnCount; i++)
         {
-            int targetIndex = i + (rowIndex * _columnCount);
+            int targetIndex = i + (rowIndex * _rowsCount);
 
             if (_cells.Length <= targetIndex)
+            {
+                continue;
+            }
+
+            if(_cells[targetIndex].IsCrossCell == true)
             {
                 continue;
             }
@@ -70,6 +78,16 @@
         if (_rows.Length <= rowIndex)
             return;
 
+        for (int i = 0; i < _columnCount; i++)
+        {
+            int targetIndex = i + (rowIndex * _rowsCount);
+
+            if (_cells[targetIndex].IsCrossCell == true)
+            {
+                _cells[targetIndex].Cross();
+            }
+        }
+
         _rows[rowIndex].DisableTextColor();
     }
 
@@ -77,14 +95,21 @@
     {
         for (int i = 0; i < _rowsCount; i++)
         {
-            int targetIndex = columnIndex + (i * _rowsCount);
+            int targetIndex = columnIndex + (i * _columnCount);
 
             if(_cells.Length <= targetIndex)
             {
                 continue;
             }
 
-            if (_cells[targetIndex].IsActivated == false)
+            NonogramCell cell = _cells[targetIndex];
+
+            if (cell.IsCrossCell == true)
+            {
+                continue;
+            }
+
+            if (cell.IsActivated == false)
             {
                 return;
             }
@@ -92,6 +117,16 @@
 
         if (_columns.Length <= columnIndex)
             return;
+
+        for (int i = 0; i < _rowsCount; i++)
+        {
+            int targetIndex = columnIndex + (i * _columnCount);
+
+            if (_cells[targetIndex].IsCrossCell == true)
+            {
+                _cells[targetIndex].Cross();
+            }
+        }
 
         _columns[columnIndex].DisableTextColor();
     }
