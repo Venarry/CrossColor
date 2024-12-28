@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class NonogramCell : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image _image;
+    [SerializeField] private Image _cross;
+
     private readonly float _worngColorFadeDuration = 1f;
     private readonly Color _wrongColor = Color.red;
 
@@ -45,6 +47,13 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
     {
         StopWrongFading();
         _image.color = color;
+        IsActivated = true;
+    }
+
+    public void Cross()
+    {
+        StopWrongFading();
+        _cross.gameObject.SetActive(true);
         IsActivated = true;
     }
 

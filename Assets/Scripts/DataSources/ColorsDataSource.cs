@@ -17,5 +17,16 @@ public class ColorsDataSource
         { "Pink", new Color(1.0f, 0.4f, 0.7f) }
     };
 
-    public Color Get(string key) => _colorMap[key];
+    public bool TryGet(string key, out Color color)
+    {
+        color = default;
+
+        if(_colorMap.ContainsKey(key) == true)
+        {
+            color = _colorMap[key];
+            return true;
+        }
+
+        return false;
+    }
 }

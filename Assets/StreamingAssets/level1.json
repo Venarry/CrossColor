@@ -19,7 +19,15 @@
     {
       "data": [
         {
-          "count": 4,
+          "count": 2,
+          "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Space"
+        },
+        {
+          "count": 1,
           "color": "Blue"
         }
       ]
@@ -81,7 +89,15 @@
     {
       "data": [
         {
-          "count": 3,
+          "count": 1,
+          "color": "Blue"
+        },
+        {
+          "count": 1,
+          "color": "Space"
+        },
+        {
+          "count": 1,
           "color": "Blue"
         },
         {

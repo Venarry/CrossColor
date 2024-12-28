@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ColorPicker : MonoBehaviour
 {
-    public static ColorPicker Instance;
+    private const string KeyCross = "Space";
 
     [SerializeField] private ColorPickerButton _colorPickerButtonPrefab;
     [SerializeField] private ColorPickerButton _colorPickerCrossToolButtonPrefab;
@@ -14,12 +14,8 @@ public class ColorPicker : MonoBehaviour
     private ColorsDataSource _colorsDataSource;
 
     public Color SelectedColor { get; private set; }
+    public bool CrossActive { get; private set; }
     public string SelectedColorKey { get; private set; }
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     public void Init(LevelCellsSpawner levelCellsSpawner, ColorsDataSource colorsDataSource)
     {
@@ -38,7 +34,15 @@ public class ColorPicker : MonoBehaviour
     {
         SelectedColorKey = colorKey;
 
-        SelectedColor = _colorsDataSource.Get(colorKey);
+        if (_colorsDataSource.TryGet(colorKey, out Color color))
+        {
+            SelectedColor = color;
+            CrossActive = false;
+        }
+        else
+        {
+            CrossActive = true;
+        }
     }
 
     public void GenerateColorButtons(string[] colorsKeys)
@@ -47,12 +51,16 @@ public class ColorPicker : MonoBehaviour
 
         int startButtonIndex = 0;
 
-        //SpawnButton(Color.white, _colorPickerCrossToolButtonPrefab, startButtonIndex);
+        ColorPickerButton crossButton = SpawnButton(Color.white, _colorPickerCrossToolButtonPrefab, KeyCross);
+        _spawnedButtons.Add(crossButton);
 
         for (int i = 0; i < colorsKeys.Length; i++)
         {
-            ColorPickerButton button = SpawnButton(_colorsDataSource.Get(colorsKeys[i]), _colorPickerButtonPrefab, colorsKeys[i]);
-            _spawnedButtons.Add(button);
+            if(_colorsDataSource.TryGet(colorsKeys[i], out Color color))
+            {
+                ColorPickerButton button = SpawnButton(color, _colorPickerButtonPrefab, colorsKeys[i]);
+                _spawnedButtons.Add(button);
+            }
         }
 
         SetColor(colorsKeys[startButtonIndex]);

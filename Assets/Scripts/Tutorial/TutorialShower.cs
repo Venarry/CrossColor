@@ -35,7 +35,10 @@ public class TutorialShower : MonoBehaviour
     {
         foreach (Coroutine fingerCoroutine in _fingersCoroutine)
         {
-            StopCoroutine(fingerCoroutine);
+            if(fingerCoroutine != null)
+            {
+                StopCoroutine(fingerCoroutine);
+            }
         }
 
         _fingersCoroutine.Clear();
@@ -87,7 +90,12 @@ public class TutorialShower : MonoBehaviour
         float lerpSpeed = 10f;
 
         GameObject finger = Instantiate(_fingerPrefab, _fingerParent);
-        finger.GetComponent<Image>().color = _colorsDataSource.Get(colorKey);
+
+        if (_colorsDataSource.TryGet(colorKey, out Color color) == true)
+        {
+            finger.GetComponent<Image>().color = color;
+        }
+
         _fingers.Add(finger);
 
         while (cellsByColor.Where(c => c.IsActivated == false).Count() > 0)
@@ -97,13 +105,13 @@ public class TutorialShower : MonoBehaviour
                 cellsByColor[activeCellIndex].transform.position,
                 towardSpeed * Time.deltaTime);
 
-            if(Vector3.Distance(finger.transform.position, cellsByColor[activeCellIndex].transform.position) < 0.1f)
+            if (Vector3.Distance(finger.transform.position, cellsByColor[activeCellIndex].transform.position) < 0.1f)
             {
                 activeCellIndex = GetNextIndex(activeCellIndex, cellsCount, out bool reseted);
 
-                if(reseted == true)
+                if (reseted == true)
                 {
-                    while(Vector3.Distance(finger.transform.position, cellsByColor[activeCellIndex].transform.position) > 0.1f)
+                    while (Vector3.Distance(finger.transform.position, cellsByColor[activeCellIndex].transform.position) > 0.1f)
                     {
                         finger.transform.position = Vector3
                             .Lerp(finger.transform.position, cellsByColor[activeCellIndex].transform.position, lerpSpeed * Time.deltaTime);
@@ -119,6 +127,7 @@ public class TutorialShower : MonoBehaviour
         Destroy(finger);
         _fingers.Remove(finger);
 
+        _cellsByColor.Remove(colorKey);
         ShowNextStage();
     }
 
@@ -132,7 +141,6 @@ public class TutorialShower : MonoBehaviour
         Coroutine coroutine = StartCoroutine(ShowFingerCellsClickTutorial(cell.Key, cell.Value.ToArray()));
         _fingersCoroutine.Add(coroutine);
         ActiveTutorialColor = cell.Key;
-        _cellsByColor.Remove(cell.Key);
     }
 
     private int GetNextIndex(int currentIndex, int maxCount, out bool reseted)

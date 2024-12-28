@@ -8,11 +8,11 @@
         },
         {
           "count": 1,
-          "color": "Blue"
+          "color": "Space"
         },
         {
           "count": 2,
-          "color": "Red"
+          "color": "Blue"
         }
       ]
     },
@@ -54,6 +54,18 @@
       "data": [
         {
           "count": 1,
+          "color": "Space"
+        },
+        {
+          "count": 1,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 1,
           "color": "Blue"
         },
         {
@@ -66,19 +78,7 @@
       "data": [
         {
           "count": 1,
-          "color": "Red"
-        },
-        {
-          "count": 1,
           "color": "Blue"
-        }
-      ]
-    },
-    {
-      "data": [
-        {
-          "count": 1,
-          "color": "Red"
         },
         {
           "count": 1,

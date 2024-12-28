@@ -62,7 +62,15 @@ public class CellsClickHandler
                 return;
             }
 
-            cell.ActiveCell(_colorPicker.SelectedColor);
+            if(_colorPicker.CrossActive == true)
+            {
+                cell.Cross();
+            }
+            else
+            {
+                cell.ActiveCell(_colorPicker.SelectedColor);
+            }
+
             TryWinGame();
         }
         else 

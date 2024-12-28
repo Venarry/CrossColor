@@ -13,10 +13,13 @@ public class LineData : MonoBehaviour
     {
         foreach (CellData value in cellsData)
         {
-            LineDataText text = Instantiate(_lineDataTextPrefab, _numbersParent);
-            text.Init(value.count.ToString(), colorsDataSource.Get(value.color));
+            if (colorsDataSource.TryGet(value.color, out Color color))
+            {
+                LineDataText text = Instantiate(_lineDataTextPrefab, _numbersParent);
+                text.Init(value.count.ToString(), color);
 
-            _lines.Add(text);
+                _lines.Add(text);
+            }
         }
     }
 
