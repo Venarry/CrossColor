@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ public class LevelCellsSpawner : MonoBehaviour
     [SerializeField] private NonogramCell _nonogramCellPrefab;
     [SerializeField] private LineData _rowDataPrefab;
     [SerializeField] private LineData _columnDataPrefab;
+    [SerializeField] private GameObject _commentParent;
+    [SerializeField] private TMP_Text _comment;
     [SerializeField] private Transform _gridParent;
     [SerializeField] private GridLayoutGroup _gridLayout;
     [SerializeField] private Transform _rowsDataParent;
@@ -30,7 +33,7 @@ public class LevelCellsSpawner : MonoBehaviour
     private int _activeLevelIndex = 0;
     private bool _tutorialPassed = false;
 
-    public event Action<NonogramCell[], int, int> Spawned;
+    public event Action<NonogramCell[], int, int, LevelData> Spawned;
     public event Action<LineData[], LineData[]> SideDataSet;
     public event Action<string[]> ColorsChanged;
     public event Action<LevelData, Vector3> LevelChanged;
@@ -237,7 +240,7 @@ public class LevelCellsSpawner : MonoBehaviour
         ColorsChanged?.Invoke(colorsStack.ToArray());
         SideDataSet?.Invoke(_spawnedRowsData.ToArray(), _spawnedColumnsData.ToArray());
         LevelChanged?.Invoke(levelData, offset);
-        Spawned?.Invoke(_spawnedCells.ToArray(), rowCount, columnCount);
+        Spawned?.Invoke(_spawnedCells.ToArray(), rowCount, columnCount, levelData);
 
         return true;
     }

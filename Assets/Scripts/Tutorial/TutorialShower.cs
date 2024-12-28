@@ -12,6 +12,7 @@ public class TutorialShower : MonoBehaviour
     [SerializeField] private ColorPicker _colorPicker;
     [SerializeField] private GameObject _fingerPrefab;
     [SerializeField] private Transform _fingerParent;
+    [SerializeField] private LevelComment _levelComment;
 
     private readonly Dictionary<string, List<NonogramCell>> _cellsByColor = new();
     private readonly List<Coroutine> _fingersCoroutine = new();
@@ -59,7 +60,7 @@ public class TutorialShower : MonoBehaviour
         _levelCellsSpawner.LevelIncreased -= OnLevelIncrease;
     }
 
-    private void OnLevelSpawn(NonogramCell[] cells, int rowCount, int columnsCount)
+    private void OnLevelSpawn(NonogramCell[] cells, int rowCount, int columnsCount, LevelData levelData)
     {
         if (_levelCellsSpawner.IsTutorial == false)
             return;
@@ -77,6 +78,15 @@ public class TutorialShower : MonoBehaviour
                 _cellsByColor.Add(colorKey, new());
                 _cellsByColor[colorKey].Add(cell);
             }
+        }
+
+        if(levelData.Comments.Length > 0)
+        {
+            _levelComment.SetData(levelData.Comments);
+        }
+        else
+        {
+            _levelComment.Hide();
         }
 
         ShowNextStage();
@@ -138,6 +148,7 @@ public class TutorialShower : MonoBehaviour
 
         KeyValuePair<string, List<NonogramCell>> cell = _cellsByColor.First();
 
+        _levelComment.ShowNextComment();
         ActiveTutorialColor = cell.Key;
         Coroutine coroutine = StartCoroutine(ShowFingerCellsClickTutorial(cell.Key, cell.Value.ToArray()));
         _fingersCoroutine.Add(coroutine);

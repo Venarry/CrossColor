@@ -19,4 +19,6 @@ public class LevelData
     public Sprite Sprite;
     public VideoClip VideoClip;
     public bool IsTutorial = false;
+    [TextArea()]
+    public string[] Comments;
 }

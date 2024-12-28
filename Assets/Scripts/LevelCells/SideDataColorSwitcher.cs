@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 public class SideDataColorSwitcher
 {
     private LevelCellsSpawner _levelCellsSpawner;
@@ -27,7 +25,7 @@ public class SideDataColorSwitcher
         _levelCellsSpawner.SideDataSet -= OnSideDataSet;
     }
 
-    private void OnLevelSpawn(NonogramCell[] cells, int rowsCount, int columnCount)
+    private void OnLevelSpawn(NonogramCell[] cells, int rowsCount, int columnCount, LevelData _)
     {
         ClearCells();
 

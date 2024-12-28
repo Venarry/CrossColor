@@ -37,7 +37,7 @@ public class CellsClickHandler
         _levelCellsSpawner.Spawned -= OnCellsSpawn;
     }
 
-    private void OnCellsSpawn(NonogramCell[] cells, int rows, int columns)
+    private void OnCellsSpawn(NonogramCell[] cells, int rows, int columns, LevelData _)
     {
         _activeCells = new NonogramCell[cells.Length];
 
