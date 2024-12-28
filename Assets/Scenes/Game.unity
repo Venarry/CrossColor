@@ -3348,39 +3348,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelsName:
-  - LevelName: tutorial1
+  - LevelFile: {fileID: 102900000, guid: d8e596123bd2f424587c81d2e37fe6b8, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 1
-  - LevelName: tutorial2
+  - LevelFile: {fileID: 102900000, guid: bda60f971b9886c43a4347ea82abf812, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 1
-  - LevelName: tutorial3
+  - LevelFile: {fileID: 102900000, guid: 84e171932795b5e4b981eea5fb436d31, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 1
-  - LevelName: level1
+  - LevelFile: {fileID: 102900000, guid: a88a4f9b4c5cad54ab5764ba3a98bfe8, type: 3}
     Sprite: {fileID: 21300000, guid: 738c6f51eb3484448b689cee67fbe12c, type: 3}
     VideoClip: {fileID: 32900000, guid: 4bb18258f2ca9ba49908e6731cb093cf, type: 3}
     IsTutorial: 0
-  - LevelName: level2
+  - LevelFile: {fileID: 102900000, guid: 5251ce5c13c81474fbfef3eca4ba60ec, type: 3}
     Sprite: {fileID: 21300000, guid: 15a70e5bf6ba93342a4197ed18aaa062, type: 3}
     VideoClip: {fileID: 32900000, guid: 5f6f979d0d902a94eb0f1e94d2518af1, type: 3}
     IsTutorial: 0
-  - LevelName: level3
+  - LevelFile: {fileID: 102900000, guid: f398ac71d934ee64f963edf484cd3a68, type: 3}
     Sprite: {fileID: 21300000, guid: 837b36f63b6ca5f4cb370396986997cf, type: 3}
     VideoClip: {fileID: 32900000, guid: 7e73082a4afadfd4cb0e37c9e01fdc63, type: 3}
     IsTutorial: 0
-  - LevelName: level4
+  - LevelFile: {fileID: 102900000, guid: 793e2da328bc42a40b2b354d8c402d33, type: 3}
     Sprite: {fileID: 21300000, guid: b2aa389b363e63742a1b255d165b7955, type: 3}
     VideoClip: {fileID: 32900000, guid: 5af4b0937dee2804fb05ac7b1ec8dcae, type: 3}
     IsTutorial: 0
-  - LevelName: level5
+  - LevelFile: {fileID: 102900000, guid: 7fc672d0dadb37745b8ebc2b1e3f3706, type: 3}
     Sprite: {fileID: 21300000, guid: b284f1549852c3d4a8eb3125b34cfe94, type: 3}
     VideoClip: {fileID: 32900000, guid: 45bf8373df74ddb4ba6e597a11dec441, type: 3}
     IsTutorial: 0
-  - LevelName: level6
+  - LevelFile: {fileID: 102900000, guid: 62b076f4b5d14a9449c14665ef37aa9e, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 0
