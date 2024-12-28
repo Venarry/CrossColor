@@ -57,7 +57,7 @@ public class CellsClickHandler
             cell.ActiveCell(_colorPicker.SelectedColor);
             TryWinGame();
         }
-        else
+        else if(_levelCellsSpawner.IsTutorial == false)
         {
             cell.EnableWrongColor();
             _healthModel.TakeDamage();
@@ -75,6 +75,6 @@ public class CellsClickHandler
             return;
         }
 
-        _winHandler.ShowWinPanel();
+        _winHandler.HandleWinGame();
     }
 }

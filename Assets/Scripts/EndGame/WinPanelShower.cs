@@ -60,7 +60,7 @@ public class WinPanelShower : MonoBehaviour
         HidePanels();
     }
 
-    public void ShowWinPanel()
+    public void HandleWinGame()
     {
         if(_showingPanelCoroutine != null)
         {
@@ -68,6 +68,7 @@ public class WinPanelShower : MonoBehaviour
             _showingPanelCoroutine = null;
         }
 
+        _levelCellsSpawner.IncreaseLevelIndex();
         _showingPanelCoroutine = StartCoroutine(ShowingWinPanel());
     }
 
@@ -100,7 +101,7 @@ public class WinPanelShower : MonoBehaviour
         _videoImage.enabled = true;
         _labelsParent.SetActive(true);
 
-        if(_levelCellsSpawner.IsLastLevel == true)
+        if(_levelCellsSpawner.IsLastLevel() == true)
         {
             _restartLevelButton.gameObject.SetActive(true);
         }

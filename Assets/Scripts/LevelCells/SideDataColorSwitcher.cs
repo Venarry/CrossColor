@@ -45,11 +45,21 @@
     {
         for (int i = 0; i < _columnCount; i++)
         {
-            if (_cells[i + (rowIndex * _columnCount)].IsActivated == false)
+            int targetIndex = i + (rowIndex * _columnCount);
+
+            if (_cells.Length <= targetIndex)
+            {
+                continue;
+            }
+
+            if (_cells[targetIndex].IsActivated == false)
             {
                 return;
             }
         }
+
+        if (_rows.Length <= rowIndex)
+            return;
 
         _rows[rowIndex].DisableTextColor();
     }
@@ -58,11 +68,21 @@
     {
         for (int i = 0; i < _rowsCount; i++)
         {
-            if (_cells[columnIndex + (i * _rowsCount)].IsActivated == false)
+            int targetIndex = columnIndex + (i * _rowsCount);
+
+            if(_cells.Length <= targetIndex)
+            {
+                continue;
+            }
+
+            if (_cells[targetIndex].IsActivated == false)
             {
                 return;
             }
         }
+
+        if (_columns.Length <= columnIndex)
+            return;
 
         _columns[columnIndex].DisableTextColor();
     }

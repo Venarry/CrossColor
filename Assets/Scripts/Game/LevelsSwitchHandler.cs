@@ -14,6 +14,11 @@ public class LevelsSwitchHandler : MonoBehaviour
         _restartLevelButton.onClick.AddListener(RestartLevels);
     }
 
+    private void OnDisable()
+    {
+        _nextLevelButton.onClick.RemoveListener(StartAvailableLevel);
+        _restartLevelButton.onClick.RemoveListener(RestartLevels);
+    }
 
     private void StartAvailableLevel()
     {

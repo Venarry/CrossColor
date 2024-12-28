@@ -17,4 +17,5 @@ public class LevelData
     public string LevelName;
     public Sprite Sprite;
     public VideoClip VideoClip;
+    public bool IsTutorial = false;
 }

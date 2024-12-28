@@ -19,32 +19,47 @@ public class LevelCellsSpawner : MonoBehaviour
     private readonly List<LineData> _spawnedRowsData = new();
     private readonly List<LineData> _spawnedColumnsData = new();
 
-    private ColorsDataSource _colorsDataSource;
     private RectTransform _gridRectTransform;
     private RectTransform _rowParentRectTransform;
     private RectTransform _columnParentRectTransform;
-    private LevelLoadData[] _levelsLoadData;
-    private LevelData[] _levelsData;
+
+    private ColorsDataSource _colorsDataSource;
+    private List<LevelLoadData> _levelsLoadData = new();
+    private List<LevelLoadData> _tutorialLevelsLoadData = new();
+    private List<LevelData> _levelsData = new();
+    private List<LevelData> _tutorialLevelsData = new();
     private int _activeLevelIndex = 0;
+    private bool _tutorialPassed = false;
 
     public event Action<NonogramCell[], int, int> Spawned;
     public event Action<LineData[], LineData[]> SideDataSet;
     public event Action<string[]> ColorsChanged;
     public event Action<LevelData, Vector3> LevelChanged;
 
-    public bool IsLastLevel => _activeLevelIndex >= _levelsLoadData.Length;
+    public bool IsTutorial => _tutorialPassed == false;
 
     public void Init(ColorsDataSource colorsDataSource, LevelLoadData[] levelsLoadData, LevelData[] levelsData)
     {
-        _colorsDataSource = colorsDataSource;
-
         _gridRectTransform = _gridLayout.GetComponent<RectTransform>();
         _rowParentRectTransform = _rowsDataParent.GetComponent<RectTransform>();
         _columnParentRectTransform = _columnsDataParent.GetComponent<RectTransform>();
 
-        _activeLevelIndex = 0;
-        _levelsLoadData = levelsLoadData;
-        _levelsData = levelsData;
+        ResetLevels();
+        _colorsDataSource = colorsDataSource;
+
+        for (int i = 0; i < levelsData.Length; i++)
+        {
+            if (levelsData[i].IsTutorial == true)
+            {
+                _tutorialLevelsData.Add(levelsData[i]);
+                _tutorialLevelsLoadData.Add(levelsLoadData[i]);
+            }
+            else
+            {
+                _levelsData.Add(levelsData[i]);
+                _levelsLoadData.Add(levelsLoadData[i]);
+            }
+        }
     }
 
     public void ResetLevels()
@@ -52,9 +67,21 @@ public class LevelCellsSpawner : MonoBehaviour
         _activeLevelIndex = 0;
     }
 
+    public bool IsLastLevel()
+    {
+        if(_tutorialPassed == true)
+        {
+            return _activeLevelIndex >= _levelsLoadData.Count;
+        }
+        else
+        {
+            return _activeLevelIndex >= _tutorialLevelsLoadData.Count;
+        }
+    }
+
     public bool TrySpawnLevel()
     {
-        if(IsLastLevel == true)
+        if(IsLastLevel() == true)
         {
             return false;
         }
@@ -64,28 +91,40 @@ public class LevelCellsSpawner : MonoBehaviour
             ClearMap();
         }
 
-        LevelLoadData levelData = _levelsLoadData[_activeLevelIndex];
+        LevelLoadData levelLoadData;
+        LevelData levelData;
+
+        if(_tutorialPassed == true)
+        {
+            levelLoadData = _levelsLoadData[_activeLevelIndex];
+            levelData = _levelsData[_activeLevelIndex];
+        }
+        else
+        {
+            levelLoadData = _tutorialLevelsLoadData[_activeLevelIndex];
+            levelData = _tutorialLevelsData[_activeLevelIndex];
+        }
 
         int columnCount = 0;
 
-        for (int j = 0; j < levelData.rows[0].data.Count; j++)
+        for (int j = 0; j < levelLoadData.rows[0].data.Count; j++)
         {
-            columnCount += levelData.rows[0].data[j].count;
+            columnCount += levelLoadData.rows[0].data[j].count;
         }
 
         _gridLayout.constraintCount = columnCount;
 
         List<string> colorsStack = new();
 
-        for (int i = 0; i < levelData.rows.Count; i++)
+        for (int i = 0; i < levelLoadData.rows.Count; i++)
         {
             int columnIndex = 0;
 
-            for (int j = 0; j < levelData.rows[i].data.Count; j++)
+            for (int j = 0; j < levelLoadData.rows[i].data.Count; j++)
             {
-                for (int k = 0; k < levelData.rows[i].data[j].count; k++)
+                for (int k = 0; k < levelLoadData.rows[i].data[j].count; k++)
                 {
-                    string colorKey = levelData.rows[i].data[j].color;
+                    string colorKey = levelLoadData.rows[i].data[j].color;
 
                     NonogramCell cell = Instantiate(_nonogramCellPrefab, _gridLayout.transform);
                     cell.SetIndex(i, columnIndex);
@@ -111,33 +150,30 @@ public class LevelCellsSpawner : MonoBehaviour
         Vector2 cellsSize = new(sideSize, sideSize);
         _gridLayout.cellSize = cellsSize;
 
-        for (int i = 0; i < levelData.rows.Count; i++)
+        for (int i = 0; i < levelLoadData.rows.Count; i++)
         {
             LineData rowData = Instantiate(_rowDataPrefab, _rowsDataParent);
-            rowData.Init(levelData.rows[i].data, _colorsDataSource);
+            rowData.Init(levelLoadData.rows[i].data, _colorsDataSource);
 
             rowData.GetComponent<RectTransform>().sizeDelta = cellsSize;
 
             _spawnedRowsData.Add(rowData);
         }
 
-        for (int i = 0; i < columnCount; i++)
+        int rowCountForSpawnColumnsData = 1;
+
+        if(levelLoadData.rows.Count > rowCountForSpawnColumnsData)
         {
-            LineData columnData = Instantiate(_columnDataPrefab, _columnsDataParent);
-            columnData.Init(levelData.columns[i].data, _colorsDataSource);
+            for (int i = 0; i < columnCount; i++)
+            {
+                LineData columnData = Instantiate(_columnDataPrefab, _columnsDataParent);
+                columnData.Init(levelLoadData.columns[i].data, _colorsDataSource);
 
-            columnData.GetComponent<RectTransform>().sizeDelta = cellsSize;
+                columnData.GetComponent<RectTransform>().sizeDelta = cellsSize;
 
-            _spawnedColumnsData.Add(columnData);
+                _spawnedColumnsData.Add(columnData);
+            }
         }
-
-        //LayoutRebuilder.MarkLayoutForRebuild(_gridRectTransform);
-        //LayoutRebuilder.MarkLayoutForRebuild(_rowParentRectTransform);
-        //LayoutRebuilder.MarkLayoutForRebuild(_columnParentRectTransform);
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(_gridRectTransform);
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(_rowParentRectTransform);
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(_columnParentRectTransform);
-        //Canvas.ForceUpdateCanvases();
 
         UpdateContainerSize(_gridRectTransform, _gridLayout);
         UpdateHorizontalLayoutSize(_columnParentRectTransform, _columnParentRectTransform.GetComponent<HorizontalLayoutGroup>());
@@ -158,10 +194,8 @@ public class LevelCellsSpawner : MonoBehaviour
 
         Spawned?.Invoke(_spawnedCells.ToArray(), rowCount, columnCount);
         ColorsChanged?.Invoke(colorsStack.ToArray());
-        LevelChanged?.Invoke(_levelsData[_activeLevelIndex], offset);
+        LevelChanged?.Invoke(levelData, offset);
         SideDataSet?.Invoke(_spawnedRowsData.ToArray(), _spawnedColumnsData.ToArray());
-
-        _activeLevelIndex++;
 
         return true;
     }
@@ -208,7 +242,7 @@ public class LevelCellsSpawner : MonoBehaviour
         container.sizeDelta = new Vector2(newWidth, newHeight);
     }
 
-    void UpdateHorizontalLayoutSize(RectTransform container, HorizontalLayoutGroup layoutGroup)
+    private void UpdateHorizontalLayoutSize(RectTransform container, HorizontalLayoutGroup layoutGroup)
     {
         RectOffset padding = layoutGroup.padding;
         float spacing = layoutGroup.spacing;
@@ -229,7 +263,7 @@ public class LevelCellsSpawner : MonoBehaviour
         container.sizeDelta = new Vector2(totalWidth, padding.top + padding.bottom + maxHeight);
     }
 
-    void UpdateVerticalLayoutSize(RectTransform container, VerticalLayoutGroup layoutGroup)
+    private void UpdateVerticalLayoutSize(RectTransform container, VerticalLayoutGroup layoutGroup)
     {
         RectOffset padding = layoutGroup.padding;
         float spacing = layoutGroup.spacing;
@@ -248,5 +282,16 @@ public class LevelCellsSpawner : MonoBehaviour
         totalHeight -= spacing;
 
         container.sizeDelta = new Vector2(padding.left + padding.right + maxWidth, totalHeight);
+    }
+
+    public void IncreaseLevelIndex()
+    {
+        _activeLevelIndex++;
+
+        if (_tutorialPassed == false && IsLastLevel())
+        {
+            _tutorialPassed = true;
+            ResetLevels();
+        }
     }
 }

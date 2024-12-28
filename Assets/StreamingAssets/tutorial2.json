@@ -1,0 +1,58 @@
+{
+  "rows": [
+    {
+      "data": [
+        {
+          "count": 3,
+          "color": "Blue"
+        },
+        {
+          "count": 2,
+          "color": "Red"
+        }
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Blue"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Red"
+        }
+      ]
+    },
+    {
+      "data": [
+        {
+          "count": 1,
+          "color": "Red"
+        }
+      ]
+    }
+  ]
+}

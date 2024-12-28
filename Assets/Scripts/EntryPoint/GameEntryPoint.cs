@@ -77,7 +77,7 @@ public class GameEntryPoint : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _winHandler.ShowWinPanel();
+            _winHandler.HandleWinGame();
         }
     }
 }
