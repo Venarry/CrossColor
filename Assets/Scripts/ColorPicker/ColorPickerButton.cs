@@ -9,7 +9,6 @@ public class ColorPickerButton : MonoBehaviour
 
     private ColorPicker _colorPicker;
     private string _colorKey;
-    private Color _pickColor;
 
     private void OnEnable()
     {
@@ -35,6 +34,5 @@ public class ColorPickerButton : MonoBehaviour
     {
         _buttonColor.color = color;
         _colorKey = colorKey;
-        _pickColor = color;
     }
 }

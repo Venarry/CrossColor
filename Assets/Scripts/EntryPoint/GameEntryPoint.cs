@@ -11,6 +11,8 @@ public class GameEntryPoint : MonoBehaviour
     [SerializeField] private LevelsDataSource _levelsDataSource;
     [SerializeField] private ColorPicker _colorPicker;
     [SerializeField] private SwipeHandler _swipeHandler;
+    [SerializeField] private TutorialShower _tutorialShower;
+
     [SerializeField] private HealthView _healthView;
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private GameObject _winPanel;
@@ -36,7 +38,7 @@ public class GameEntryPoint : MonoBehaviour
 
         _winHandler.Enable();
 
-        _cellsClickHandler = new(_levelCellsSpawner, _colorPicker, healthModel, _winHandler);
+        _cellsClickHandler = new(_levelCellsSpawner, _colorPicker, healthModel, _winHandler, _tutorialShower);
         _cellsClickHandler.Enable();
 
         SideDataColorSwitcher sideDataColorSwitcher = new(_levelCellsSpawner);
@@ -47,6 +49,8 @@ public class GameEntryPoint : MonoBehaviour
 
         _colorPicker.Init(_levelCellsSpawner, colorsDataSource);
         _healthView.Init(healthModel);
+        _tutorialShower.Init(colorsDataSource);
+        _tutorialShower.Enable();
 
         _levelCellsSpawner.TrySpawnLevel();
 
@@ -57,6 +61,7 @@ public class GameEntryPoint : MonoBehaviour
     {
         _cellsClickHandler.Disable();
         _deathHandler.Disable();
+        _tutorialShower.Disable();
     }
 
     private async Task<LevelLoadData[]> LoadLevels()
@@ -75,9 +80,9 @@ public class GameEntryPoint : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _winHandler.HandleWinGame();
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    _winHandler.HandleWinGame();
+        //}
     }
 }

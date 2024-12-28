@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +33,7 @@ public class LevelCellsSpawner : MonoBehaviour
     public event Action<LineData[], LineData[]> SideDataSet;
     public event Action<string[]> ColorsChanged;
     public event Action<LevelData, Vector3> LevelChanged;
+    public event Action LevelIncreased;
 
     public bool IsTutorial => _tutorialPassed == false;
 
@@ -293,5 +292,7 @@ public class LevelCellsSpawner : MonoBehaviour
             _tutorialPassed = true;
             ResetLevels();
         }
+
+        LevelIncreased?.Invoke();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 public class CellsClickHandler
 {
     private readonly LevelCellsSpawner _levelCellsSpawner;
+    private readonly TutorialShower _tutorialShower;
     private readonly ColorPicker _colorPicker;
     private readonly HealthModel _healthModel;
     private readonly WinPanelShower _winHandler;
@@ -14,12 +15,14 @@ public class CellsClickHandler
         LevelCellsSpawner levelCellsSpawner,
         ColorPicker colorPicker,
         HealthModel healthModel,
-        WinPanelShower winHandler)
+        WinPanelShower winHandler,
+        TutorialShower tutorialShower)
     {
         _levelCellsSpawner = levelCellsSpawner;
         _colorPicker = colorPicker;
         _healthModel = healthModel;
         _winHandler = winHandler;
+        _tutorialShower = tutorialShower;
     }
 
     public event Action WrongClicked;
@@ -54,14 +57,22 @@ public class CellsClickHandler
 
         if(_colorPicker.SelectedColorKey == cell.WinColorKey)
         {
+            if(_levelCellsSpawner.IsTutorial == true && _tutorialShower.ActiveTutorialColor != cell.WinColorKey)
+            {
+                return;
+            }
+
             cell.ActiveCell(_colorPicker.SelectedColor);
             TryWinGame();
         }
-        else if(_levelCellsSpawner.IsTutorial == false)
+        else 
         {
-            cell.EnableWrongColor();
-            _healthModel.TakeDamage();
+            if (_levelCellsSpawner.IsTutorial == false)
+            {
+                _healthModel.TakeDamage();
+            }
 
+            cell.EnableWrongColor();
             WrongClicked?.Invoke();
         }
     }
