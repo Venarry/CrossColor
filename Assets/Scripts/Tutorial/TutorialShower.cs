@@ -89,7 +89,7 @@ public class TutorialShower : MonoBehaviour
         float towardSpeed = 350f;
         float lerpSpeed = 10f;
 
-        GameObject finger = Instantiate(_fingerPrefab, _fingerParent);
+        GameObject finger = Instantiate(_fingerPrefab, _colorPicker.GetButtonPosition(colorKey), Quaternion.identity, _fingerParent);
 
         if (_colorsDataSource.TryGet(colorKey, out Color color) == true)
         {

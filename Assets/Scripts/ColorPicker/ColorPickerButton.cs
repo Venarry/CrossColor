@@ -8,7 +8,7 @@ public class ColorPickerButton : MonoBehaviour
     [SerializeField] private Image _buttonColor;
 
     private ColorPicker _colorPicker;
-    private string _colorKey;
+    public string ColorKey { get; private set; }
 
     private void OnEnable()
     {
@@ -22,7 +22,7 @@ public class ColorPickerButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        _colorPicker?.SetColor(_colorKey);
+        _colorPicker?.SetColor(ColorKey);
     }
 
     public void Init(ColorPicker colorPicker)
@@ -33,6 +33,6 @@ public class ColorPickerButton : MonoBehaviour
     public void SetColor(Color color, string colorKey)
     {
         _buttonColor.color = color;
-        _colorKey = colorKey;
+        ColorKey = colorKey;
     }
 }

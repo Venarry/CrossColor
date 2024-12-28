@@ -191,10 +191,10 @@ public class LevelCellsSpawner : MonoBehaviour
 
         _gridRectTransform.localPosition = new Vector3(xOffset, 0, 0);
 
-        Spawned?.Invoke(_spawnedCells.ToArray(), rowCount, columnCount);
         ColorsChanged?.Invoke(colorsStack.ToArray());
-        LevelChanged?.Invoke(levelData, offset);
         SideDataSet?.Invoke(_spawnedRowsData.ToArray(), _spawnedColumnsData.ToArray());
+        LevelChanged?.Invoke(levelData, offset);
+        Spawned?.Invoke(_spawnedCells.ToArray(), rowCount, columnCount);
 
         return true;
     }

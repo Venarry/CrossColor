@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ColorPicker : MonoBehaviour
@@ -23,6 +24,19 @@ public class ColorPicker : MonoBehaviour
         _colorsDataSource = colorsDataSource;
 
         _levelCellsSpawner.ColorsChanged += OnColorsChange;
+    }
+
+    public Vector2 GetButtonPosition(string colorKey)
+    {
+        Debug.Log(colorKey);
+
+        foreach (var item in _spawnedButtons)
+        {
+            Debug.Log(item.ColorKey);
+        }
+        ColorPickerButton button = _spawnedButtons.FirstOrDefault(c => c.ColorKey == colorKey);
+
+        return button.transform.position;
     }
 
     private void OnColorsChange(string[] colorsKeys)
