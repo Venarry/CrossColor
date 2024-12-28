@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class NonogramCell : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField] private Image _mainColorImage;
     [SerializeField] private Image _image;
     [SerializeField] private Image _cross;
 
@@ -16,7 +17,6 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
 
     public event Action<NonogramCell> Clicked;
 
-    public Color CellColor => _image.color;
     public string WinColorKey { get; private set; }
     public bool IsActivated { get; private set; } = false;
     public int RowIndex { get; private set; }
@@ -47,6 +47,8 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
     {
         StopWrongFading();
         _image.color = color;
+        StartCoroutine(ShowCellColor());
+
         IsActivated = true;
     }
 
@@ -68,28 +70,41 @@ public class NonogramCell : MonoBehaviour, IPointerClickHandler
         if (_activeWrongFading != null)
         {
             StopCoroutine(_activeWrongFading);
-            _image.color = Color.white;
+            _mainColorImage.color = Color.white;
         }
     }
 
     private IEnumerator FadingWrongColor()
     {
-        Color startColor = _image.color;
+        Color startColor = _mainColorImage.color;
         float oneStepDuration = _worngColorFadeDuration / 2;
 
         for (float i = 0; i < oneStepDuration; i += Time.deltaTime)
         {
-            _image.color = Color.Lerp(startColor, _wrongColor, i / oneStepDuration);
+            _mainColorImage.color = Color.Lerp(startColor, _wrongColor, i / oneStepDuration);
             yield return null;
         }
 
         for (float i = 0; i < oneStepDuration; i += Time.deltaTime)
         {
-            _image.color = Color.Lerp(_wrongColor, startColor, i / oneStepDuration);
+            _mainColorImage.color = Color.Lerp(_wrongColor, startColor, i / oneStepDuration);
             yield return null;
         }
 
-        _image.color = startColor;
+        _mainColorImage.color = startColor;
         _activeWrongFading = null;
+    }
+
+    private IEnumerator ShowCellColor()
+    {
+        float scaleTransitDuration = 1f;
+        Vector3 startScale = _image.transform.localScale;
+
+        for (float i = 0; i < scaleTransitDuration; i += Time.deltaTime)
+        {
+            _image.transform.localScale = Vector3.Lerp(_image.transform.localScale, Vector3.one, i / scaleTransitDuration);
+
+            yield return null;
+        }
     }
 }

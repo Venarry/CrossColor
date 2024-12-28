@@ -792,8 +792,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
+      - m_Target: {fileID: 826641099}
+        m_TargetAssemblyTypeName: LevelsSwitchHandler, Assembly-CSharp
         m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
@@ -891,8 +891,8 @@ MonoBehaviour:
   _colorPicker: {fileID: 1885160441}
   _swipeHandler: {fileID: 1271147233}
   _tutorialShower: {fileID: 1348031603}
+  _loseHandler: {fileID: 680063841}
   _healthView: {fileID: 560768237}
-  _losePanel: {fileID: 31976886}
   _winPanel: {fileID: 1305010841}
   _finalImage: {fileID: 465702705}
   _winHandler: {fileID: 665710832}
@@ -2161,6 +2161,53 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &680063840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680063842}
+  - component: {fileID: 680063841}
+  m_Layer: 0
+  m_Name: LoseHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &680063841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680063840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4ac602dd5a25d4b9930e781ab8278a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _restartPanel: {fileID: 31976886}
+  _restartGameButton: {fileID: 401556353}
+  _levelsSwitchHandler: {fileID: 826641099}
+--- !u!4 &680063842
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680063840}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &797565242
 GameObject:
   m_ObjectHideFlags: 0
@@ -4295,3 +4342,4 @@ SceneRoots:
   - {fileID: 826641100}
   - {fileID: 1271147234}
   - {fileID: 1348031604}
+  - {fileID: 680063842}

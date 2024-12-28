@@ -10,7 +10,7 @@ public class ColorPicker : MonoBehaviour
     [SerializeField] private ColorPickerButton _colorPickerCrossToolButtonPrefab;
     [SerializeField] private Transform _toolsParent;
 
-    private List<ColorPickerButton> _spawnedButtons = new();
+    private readonly List<ColorPickerButton> _spawnedButtons = new();
     private LevelCellsSpawner _levelCellsSpawner;
     private ColorsDataSource _colorsDataSource;
 
@@ -28,12 +28,6 @@ public class ColorPicker : MonoBehaviour
 
     public Vector2 GetButtonPosition(string colorKey)
     {
-        Debug.Log(colorKey);
-
-        foreach (var item in _spawnedButtons)
-        {
-            Debug.Log(item.ColorKey);
-        }
         ColorPickerButton button = _spawnedButtons.FirstOrDefault(c => c.ColorKey == colorKey);
 
         return button.transform.position;

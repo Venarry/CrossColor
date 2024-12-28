@@ -72,7 +72,7 @@ public class WinPanelShower : MonoBehaviour
         _showingPanelCoroutine = StartCoroutine(ShowingWinPanel());
     }
 
-    public IEnumerator ShowingWinPanel()
+    private IEnumerator ShowingWinPanel()
     {
         _winPanel.gameObject.SetActive(true);
         _finalImage.enabled = true;

@@ -12,16 +12,16 @@ public class GameEntryPoint : MonoBehaviour
     [SerializeField] private ColorPicker _colorPicker;
     [SerializeField] private SwipeHandler _swipeHandler;
     [SerializeField] private TutorialShower _tutorialShower;
+    [SerializeField] private LoseHandler _loseHandler;
 
     [SerializeField] private HealthView _healthView;
-    [SerializeField] private GameObject _losePanel;
     [SerializeField] private GameObject _winPanel;
     [SerializeField] private Image _finalImage;
     [SerializeField] private WinPanelShower _winHandler;
 
     private CellsClickHandler _cellsClickHandler;
-    private DeathHandler _deathHandler;
     private StreaminAssetsReader _streaminAssetsReader;
+    private SideDataColorSwitcher _sideDataColorSwitcher;
 
     private async void Awake()
     {
@@ -41,11 +41,13 @@ public class GameEntryPoint : MonoBehaviour
         _cellsClickHandler = new(_levelCellsSpawner, _colorPicker, healthModel, _winHandler, _tutorialShower);
         _cellsClickHandler.Enable();
 
-        SideDataColorSwitcher sideDataColorSwitcher = new(_levelCellsSpawner);
+        _sideDataColorSwitcher = new(_levelCellsSpawner);
+        _sideDataColorSwitcher.Enable();
 
         _swipeHandler.Init(_cellsClickHandler);
-        _deathHandler = new(healthModel, _losePanel);
-        _deathHandler.Enable();
+
+        _loseHandler.Init(healthModel);
+        _loseHandler.Enable();
 
         _colorPicker.Init(_levelCellsSpawner, colorsDataSource);
         _healthView.Init(healthModel);
@@ -60,8 +62,9 @@ public class GameEntryPoint : MonoBehaviour
     private void OnDestroy()
     {
         _cellsClickHandler.Disable();
-        _deathHandler.Disable();
         _tutorialShower.Disable();
+        _sideDataColorSwitcher.Disable();
+        _loseHandler.Disable();
     }
 
     private async Task<LevelLoadData[]> LoadLevels()

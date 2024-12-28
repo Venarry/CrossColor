@@ -10,9 +10,18 @@
     public SideDataColorSwitcher(LevelCellsSpawner levelCellsSpawner)
     {
         _levelCellsSpawner = levelCellsSpawner;
+    }
 
+    public void Enable()
+    {
         _levelCellsSpawner.Spawned += OnLevelSpawn;
         _levelCellsSpawner.SideDataSet += OnSideDataSet;
+    }
+
+    public void Disable()
+    {
+        _levelCellsSpawner.Spawned -= OnLevelSpawn;
+        _levelCellsSpawner.SideDataSet -= OnSideDataSet;
     }
 
     private void OnLevelSpawn(NonogramCell[] cells, int rowsCount, int columnCount)

@@ -2,12 +2,15 @@
 
 public class HealthModel
 {
+    private int _maxValue;
     public HealthModel(int value)
     {
         Value = value;
+        _maxValue = value;
     }
 
     public event Action DamageTaken;
+    public event Action Restored;
     public event Action Over;
 
     public int Value { get; private set; }
@@ -26,5 +29,11 @@ public class HealthModel
         {
             Over?.Invoke();
         }
+    }
+
+    public void Restore()
+    {
+        Value = _maxValue;
+        Restored?.Invoke();
     }
 }

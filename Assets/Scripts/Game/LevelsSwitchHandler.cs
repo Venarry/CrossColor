@@ -30,4 +30,9 @@ public class LevelsSwitchHandler : MonoBehaviour
         _levelCellsSpawner.ResetLevels();
         _levelCellsSpawner.TrySpawnLevel();
     }
+
+    public void RestartLevel()
+    {
+        _levelCellsSpawner.TrySpawnLevel();
+    }
 }

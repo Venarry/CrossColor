@@ -26,13 +26,12 @@ public class SwipeHandler : MonoBehaviour
             _isSwiping = true;
         }
 
-        Vector2 delta = Vector2.zero;
-        float magnitudeForSwipe = 40;
+        float magnitudeForSwipe = 25;
         
         if (Input.GetMouseButton(0) && _isSwiping)
         {
             _currentTouchPosition = Input.mousePosition;
-            delta = _currentTouchPosition - _startTouchPosition;
+            Vector2 delta = _currentTouchPosition - _startTouchPosition;
 
             if (_swipeAxis == "" && delta.magnitude >= magnitudeForSwipe)
             {
