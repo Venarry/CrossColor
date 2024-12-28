@@ -62,6 +62,15 @@ public class TutorialShower : MonoBehaviour
 
     private void OnLevelSpawn(NonogramCell[] cells, int rowCount, int columnsCount, LevelData levelData)
     {
+        if (levelData.Comments.Length > 0)
+        {
+            _levelComment.SetData(levelData.Comments);
+        }
+        else
+        {
+            _levelComment.Hide();
+        }
+
         if (_levelCellsSpawner.IsTutorial == false)
             return;
 
@@ -78,15 +87,6 @@ public class TutorialShower : MonoBehaviour
                 _cellsByColor.Add(colorKey, new());
                 _cellsByColor[colorKey].Add(cell);
             }
-        }
-
-        if(levelData.Comments.Length > 0)
-        {
-            _levelComment.SetData(levelData.Comments);
-        }
-        else
-        {
-            _levelComment.Hide();
         }
 
         ShowNextStage();

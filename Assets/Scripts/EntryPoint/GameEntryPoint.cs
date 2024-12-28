@@ -70,11 +70,13 @@ public class GameEntryPoint : MonoBehaviour
     private async Task<LevelLoadData[]> LoadLevels()
     {
         string[] levelNames = _levelsDataSource.LevelsName;
+        TextAsset[] levelFiles = _levelsDataSource.LevelsFiles;
         List<LevelLoadData> levels = new();
 
-        foreach (string levelName in levelNames)
+        foreach (TextAsset levelAsset in levelFiles)
         {
-            LevelLoadData level = await _streaminAssetsReader.ReadAsync<LevelLoadData>(levelName + PathJsonEnding);
+            //LevelLoadData level = await _streaminAssetsReader.ReadAsync<LevelLoadData>(levelName + PathJsonEnding);
+            LevelLoadData level = JsonUtility.FromJson<LevelLoadData>(levelAsset.text);
             levels.Add(level);
         }
 

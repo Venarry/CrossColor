@@ -10,12 +10,14 @@ public class LevelsDataSource : MonoBehaviour
 
     public LevelData[] Levels => _levelsName.ToArray();
     public string[] LevelsName => _levelsName.Select(c => c.LevelFile.name).ToArray();
+    public TextAsset[] LevelsFiles => _levelsName.Select(c => c.LevelFile).ToArray();
 }
 
 [Serializable]
 public class LevelData
 {
-    public DefaultAsset LevelFile;
+    public string Name;
+    public TextAsset LevelFile;
     public Sprite Sprite;
     public VideoClip VideoClip;
     public bool IsTutorial = false;

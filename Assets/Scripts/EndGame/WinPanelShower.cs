@@ -68,37 +68,47 @@ public class WinPanelShower : MonoBehaviour
             _showingPanelCoroutine = null;
         }
 
+        bool isTutorial = _levelCellsSpawner.IsTutorial;
         _levelCellsSpawner.IncreaseLevelIndex();
-        _showingPanelCoroutine = StartCoroutine(ShowingWinPanel());
+        _showingPanelCoroutine = StartCoroutine(ShowingWinPanel(isTutorial));
     }
 
-    private IEnumerator ShowingWinPanel()
+    private IEnumerator ShowingWinPanel(bool isTutorial)
     {
         _winPanel.gameObject.SetActive(true);
-        _finalImage.enabled = true;
+
         _labelsParent.gameObject.SetActive(false);
         _videoImage.enabled = false;
 
         _winPanel.color = _startWinPanelColor;
         _finalImage.color = _startFinalImageColor;
 
-        for (float timer = 0; timer < _finalImageFadeDuration; timer += Time.deltaTime)
+        if (isTutorial == false)
         {
-            _finalImage.color = Color.Lerp(_startFinalImageColor, _endFinalImageColor, timer / _finalImageFadeDuration);
-            yield return null;
+            _finalImage.enabled = true;
+
+            for (float timer = 0; timer < _finalImageFadeDuration; timer += Time.deltaTime)
+            {
+                _finalImage.color = Color.Lerp(_startFinalImageColor, _endFinalImageColor, timer / _finalImageFadeDuration);
+                yield return null;
+            }
         }
 
-        _videoPlayer.Prepare();
-
-        while(_videoPlayer.isPrepared == false)
+        if(isTutorial == false)
         {
-            yield return null;
+            _videoPlayer.Prepare();
+
+            while (_videoPlayer.isPrepared == false)
+            {
+                yield return null;
+            }
+
+            _videoPlayer.Play();
+
+            _finalImage.enabled = false;
+            _videoImage.enabled = true;
         }
-
-        _videoPlayer.Play();
-
-        _finalImage.enabled = false;
-        _videoImage.enabled = true;
+        
         _labelsParent.SetActive(true);
 
         if(_levelCellsSpawner.IsLastLevel() == true)

@@ -3615,7 +3615,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelsName:
-  - LevelFile: {fileID: 102900000, guid: d8e596123bd2f424587c81d2e37fe6b8, type: 3}
+  - Name: Tutorial1
+    LevelFile: {fileID: 4900000, guid: ed65f62e1d45be444976d128509ab201, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 1
@@ -3623,7 +3624,8 @@ MonoBehaviour:
     - "The puzzle is solved by filling the board with the required colors.\nTap a
       color at the bottom to select it.\nSwipe your finger across the cells to fill
       them with the selected color.\r"
-  - LevelFile: {fileID: 102900000, guid: bda60f971b9886c43a4347ea82abf812, type: 3}
+  - Name: Tutorial2
+    LevelFile: {fileID: 4900000, guid: 66a85945783ff284e95bed37535ed2a2, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 1
@@ -3633,46 +3635,62 @@ MonoBehaviour:
       Select
       blue and fill 3 cells.'
     - Select red and fill the remaining cells.
-  - LevelFile: {fileID: 102900000, guid: 84e171932795b5e4b981eea5fb436d31, type: 3}
+  - Name: Tutorial13
+    LevelFile: {fileID: 4900000, guid: 9fd1ddcdeb308c143b9fa0ca4d1b3b4f, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 1
     Comments:
     - Select red and fill the cells.
-    - 'There can be empty cells between groups of squares. Mark them with a cross.
+    - 'There can be empty cells between groups of squares.
+
+      Mark them with
+      a cross.
+
       Select the cross.
 
-      You can see one blue cell is already filled in the
-      middle, so the next cell must be empty. Place a cross in that cell.
+      You can see one blue cell is already
+      filled in the middle,
+
+      so the next cell must be empty.
+
+      Place a
+      cross in that cell.
 
 '
     - Select blue and fill the remaining cells.
-  - LevelFile: {fileID: 102900000, guid: a88a4f9b4c5cad54ab5764ba3a98bfe8, type: 3}
+  - Name: level1
+    LevelFile: {fileID: 4900000, guid: 4fb9c139b915fd140ba235661d8d231f, type: 3}
     Sprite: {fileID: 21300000, guid: 738c6f51eb3484448b689cee67fbe12c, type: 3}
     VideoClip: {fileID: 32900000, guid: 4bb18258f2ca9ba49908e6731cb093cf, type: 3}
     IsTutorial: 0
     Comments: []
-  - LevelFile: {fileID: 102900000, guid: 5251ce5c13c81474fbfef3eca4ba60ec, type: 3}
+  - Name: level2
+    LevelFile: {fileID: 4900000, guid: e836dc8d136cba947b41fdeef176926c, type: 3}
     Sprite: {fileID: 21300000, guid: 15a70e5bf6ba93342a4197ed18aaa062, type: 3}
     VideoClip: {fileID: 32900000, guid: 5f6f979d0d902a94eb0f1e94d2518af1, type: 3}
     IsTutorial: 0
     Comments: []
-  - LevelFile: {fileID: 102900000, guid: f398ac71d934ee64f963edf484cd3a68, type: 3}
+  - Name: level3
+    LevelFile: {fileID: 4900000, guid: a787a47dde32b264c9cc44665e01435c, type: 3}
     Sprite: {fileID: 21300000, guid: 837b36f63b6ca5f4cb370396986997cf, type: 3}
     VideoClip: {fileID: 32900000, guid: 7e73082a4afadfd4cb0e37c9e01fdc63, type: 3}
     IsTutorial: 0
     Comments: []
-  - LevelFile: {fileID: 102900000, guid: 793e2da328bc42a40b2b354d8c402d33, type: 3}
+  - Name: level4
+    LevelFile: {fileID: 4900000, guid: 4cc861543e4318141a2f63b326796642, type: 3}
     Sprite: {fileID: 21300000, guid: b2aa389b363e63742a1b255d165b7955, type: 3}
     VideoClip: {fileID: 32900000, guid: 5af4b0937dee2804fb05ac7b1ec8dcae, type: 3}
     IsTutorial: 0
     Comments: []
-  - LevelFile: {fileID: 102900000, guid: 7fc672d0dadb37745b8ebc2b1e3f3706, type: 3}
+  - Name: level5
+    LevelFile: {fileID: 4900000, guid: 30cfdf6a3fd7ade46852ec11ed800a9b, type: 3}
     Sprite: {fileID: 21300000, guid: b284f1549852c3d4a8eb3125b34cfe94, type: 3}
     VideoClip: {fileID: 32900000, guid: 45bf8373df74ddb4ba6e597a11dec441, type: 3}
     IsTutorial: 0
     Comments: []
-  - LevelFile: {fileID: 102900000, guid: 62b076f4b5d14a9449c14665ef37aa9e, type: 3}
+  - Name: level6
+    LevelFile: {fileID: 4900000, guid: 02185d8469a08cd478bc05248fe363f7, type: 3}
     Sprite: {fileID: 21300000, guid: e56b755e22709bf49a6afa545fb02be2, type: 3}
     VideoClip: {fileID: 32900000, guid: 46a63dfe865a0fc469c4194d0da75f94, type: 3}
     IsTutorial: 0
